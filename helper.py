@@ -16,7 +16,6 @@ SIM_ONLY_VIEW = "See only the Simulation"
 SIM_DELTA = "See Delta"
 
 
-
 def setup_state():
     if 'comparable' not in st.session_state:
         st.session_state.comparable = False
@@ -61,20 +60,23 @@ def get_view():
 # arrival map
 
 
-def generate_map_diagram(df, target, vmin, vmax, title, isDelta = False):
+def generate_map_diagram(df, target, vmin, vmax, title, isDelta=False):
+
+    color_scale = 'viridis'
 
     if isDelta:
         df['diff'] = df[target] - df['arrivi_tot']
         vmin = df['diff'].min()
         vmax = df['diff'].max() * .5
         target = 'diff'
+        color_scale = "PRGn"
 
     fig = px.choropleth(df,
                         geojson=df.geometry,
                         locations=df.index,
-                        color= f'{target}',
+                        color=f'{target}',
                         projection='mercator',
-                        color_continuous_scale='viridis',
+                        color_continuous_scale=color_scale,
                         range_color=[vmin, vmax],
                         title=title,
                         labels={f'{target}': 'Arrivals'},
@@ -101,6 +103,7 @@ def generate_map_diagram(df, target, vmin, vmax, title, isDelta = False):
 
 
 def on_reality_bar_chart_setup(df, number_of_municipalities, order_municipalities):
+
     number_mun = number_of_municipalities if number_of_municipalities else 5
     order_mun = True if order_municipalities == "Ascending" else False
     temp_df = df.copy()
@@ -117,16 +120,15 @@ def on_reality_bar_chart_setup(df, number_of_municipalities, order_municipalitie
 def generate_simulation_bar_chart(df, comparison_target):
 
     fig = px.bar(df, y='diff', x='COMUNE', text_auto='.2s',
-                 title="Arrival Diff after Simulation",
-                 color_continuous_scale='viridis',
-                 color='diff',
-                 labels={'diff': 'Tourist demand diff.',
-                         'arrivi_tot': 'Demand (real)', comparison_target: 'Demand (sim.)', 'COMUNE': "Municipality"},
-                 text='diff',
-                 hover_data=["COMUNE", "diff",
-                             "arrivi_tot", comparison_target],
-                 height=600)
-
+        title="Arrival Diff after Simulation",
+        color_continuous_scale='viridis',
+        color='diff',
+        labels={'diff': 'Tourist demand diff.',
+                'arrivi_tot': 'Demand (real)', comparison_target: 'Demand (sim.)', 'COMUNE': "Municipality"},
+        text='diff',
+        hover_data=["COMUNE", "diff",
+                    "arrivi_tot", comparison_target],
+        height=600)
 
     fig.update_layout(
         margin={"r": 0, "t": 100, "l": 0, "b": 0},

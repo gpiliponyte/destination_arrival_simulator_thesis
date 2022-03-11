@@ -250,7 +250,7 @@ if st.session_state.mode == helper.SIMULATION:
 
         fig_histogram_arrivals_comparison = px.histogram(
             df_comparison_real_and_sim, x="COMUNE", y="arrivi_tot", color='type', barmode='group', title="Change in Arrivals for Municipality (Histogram)",
-            color_discrete_sequence=px.colors.sequential.Viridis, height=600, labels={"COMUNE": "Municipality",
+            color_discrete_sequence=['#440154',  '#22938B'], height=600, labels={"COMUNE": "Municipality",
                                                                                       "arrivi_tot": "Arrivals"
                                                                                       })
         if simulation_mode != helper.SIM_SIDE_BY_SIDE:
