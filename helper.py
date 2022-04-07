@@ -29,22 +29,30 @@ def setup_state():
 
 @st.cache
 def load_data():  # LOAD SIMULATION AND REAL DATA ON LOAD
+
+
+    districts = gp.read_file('data/geo_district_df.shp')
+    nationality = pd.read_csv('data/nationality_trends_yearly.csv')
+    category = pd.read_csv('data/category_trends_yearly.csv')
+    overall = pd.read_csv('data/trends_yearly.csv') 
+    districts_sim = pd.read_csv('data/districts_sim.csv', index_col=1) 
+
+    nationality = nationality[nationality['Year'] == 2020]
+    category = category[category['Year'] == 2020]
+    overall = overall[overall['Year'] == 2020]
+
+    nationality = districts.merge(nationality, on='district_c', how = "inner")
+    category = districts.merge(category, on='district_c', how = "inner")
+    overall = districts.merge(overall, on='district_c', how = "inner")
+
     municipalities = gp.read_file('./data/geo_df.shp')
     municipalities_sim = pd.read_csv(
         './data/municiplaities_sim.csv', index_col=0)
     municipalities_sim = 1 - municipalities_sim
     municipalities_sim = municipalities_sim.loc[municipalities['PRO_COM'], [
         str(c) for c in municipalities['PRO_COM']]]
-    return municipalities, municipalities_sim
+    return municipalities, municipalities_sim, districts, nationality, category, overall, districts_sim
 
-
-def mock_nationalities(dataFrame):
-    df = dataFrame.copy()
-    df["germans"] = df["arrivi_tot"] * 0.3
-    df["italians"] = df["arrivi_tot"] * 0.5
-    df["americans"] = df["arrivi_tot"] * 0.1
-    df["others"] = df["arrivi_tot"] * 0.1
-    return df
 
 
 def on_run_simulation_btn_click():
@@ -60,12 +68,18 @@ def get_view():
 # arrival map
 
 
-def generate_map_diagram(df, target, vmin, vmax, title, isDelta=False):
+def generate_map_diagram(df, target, title, isDelta=False):
+
+    # ok = df.dissolve(by='district', aggfunc='sum')
+
+
+    vmin = df['Arrivals'].min()
+    vmax = df['Arrivals'].max()
 
     color_scale = 'viridis'
 
     if isDelta:
-        df['diff'] = df[target] - df['arrivi_tot']
+        df['diff'] = df[target] - df['Arrivals']
         vmin = df['diff'].min()
         vmax = df['diff'].max() * .5
         target = 'diff'
@@ -81,7 +95,7 @@ def generate_map_diagram(df, target, vmin, vmax, title, isDelta=False):
                         title=title,
                         labels={f'{target}': 'Arrivals'},
                         height=600,
-                        hover_data=["COMUNE", f'{target}']
+                        hover_data=["district_i", "district_g", f'{target}']
                         )
     fig.update_geos(fitbounds="locations", visible=False,)
 
@@ -102,16 +116,15 @@ def generate_map_diagram(df, target, vmin, vmax, title, isDelta=False):
     return fig
 
 
-def on_reality_bar_chart_setup(df, number_of_municipalities, order_municipalities):
+def on_reality_bar_chart_setup(df, number_of_municipalities, order_municipalities, type = "Nationality"):
 
-    number_mun = number_of_municipalities if number_of_municipalities else 5
-    order_mun = True if order_municipalities == "Ascending" else False
+    # number_mun = number_of_municipalities if number_of_municipalities else 5
+    # order_mun = True if order_municipalities == "Ascending" else False
     temp_df = df.copy()
-    temp_df.sort_values('arrivi_tot', inplace=True, ascending=order_mun)
-    temp_df = temp_df.head(number_mun)
-    fig = px.bar(temp_df, title="Arrivals for Municipality by Nationality", x="COMUNE",  y=["germans", "italians", "americans", "others"], color_discrete_sequence=px.colors.sequential.Viridis, labels={
-        "COMUNE": "Municipality",
-        "value": "Arrivals"
+    # temp_df = temp_df.head(number_mun)
+
+    fig = px.bar(temp_df, title="Arrivals for District by Nationality", x="district_i",  y="Arrivals", color=type, color_discrete_sequence=px.colors.sequential.Sunset, labels={
+        "district_i": "District"
     }, height=600)
 
     return fig
@@ -119,16 +132,16 @@ def on_reality_bar_chart_setup(df, number_of_municipalities, order_municipalitie
 
 def generate_simulation_bar_chart(df, comparison_target):
 
-    fig = px.bar(df, y='diff', x='COMUNE', text_auto='.2s',
-        title="Arrival Diff after Simulation",
-        color_continuous_scale='viridis',
-        color='diff',
-        labels={'diff': 'Tourist demand diff.',
-                'arrivi_tot': 'Demand (real)', comparison_target: 'Demand (sim.)', 'COMUNE': "Municipality"},
-        text='diff',
-        hover_data=["COMUNE", "diff",
-                    "arrivi_tot", comparison_target],
-        height=600)
+    fig = px.bar(df, y='diff', x='district_i', text_auto='.2s',
+                 title="Arrival Diff after Simulation",
+                 color_continuous_scale='viridis',
+                 color='diff',
+                 labels={'diff': 'Tourist demand diff.',
+                         'arrivi_tot': 'Demand (real)', comparison_target: 'Demand (sim.)', 'district_i': "District"},
+                 text='diff',
+                 hover_data=["district_i", "diff",
+                             "Arrivals", comparison_target],
+                 height=600)
 
     fig.update_layout(
         margin={"r": 0, "t": 100, "l": 0, "b": 0},
