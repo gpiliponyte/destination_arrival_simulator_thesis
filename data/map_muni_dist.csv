@@ -1,0 +1,117 @@
+istat_code,muni_ge,muni_it,district_ge,district_it,district_c
+21008,Bozen,Bolzano,Bozen,Bolzano,1
+21005,Hafling,Avelengo,Burggrafenamt,Burgraviato,2
+21014,Kuens,Caines,Burggrafenamt,Burgraviato,2
+21020,Tscherms,Cermes,Burggrafenamt,Burgraviato,2
+21035,Gargazon,Gargazzone,Burggrafenamt,Burgraviato,2
+21038,Algund,Lagundo,Burggrafenamt,Burgraviato,2
+21041,Lana,Lana,Burggrafenamt,Burgraviato,2
+21043,Laurein,Lauregno,Burggrafenamt,Burgraviato,2
+21048,Marling,Marlengo,Burggrafenamt,Burgraviato,2
+21051,Meran,Merano,Burggrafenamt,Burgraviato,2
+21054,Moos in Passeier,Moso in Passiria,Burggrafenamt,Burgraviato,2
+21055,Nals,Nalles,Burggrafenamt,Burgraviato,2
+21056,Naturns,Naturno,Burggrafenamt,Burgraviato,2
+21062,Partschins,Parcines,Burggrafenamt,Burgraviato,2
+21064,Plaus,Plaus,Burggrafenamt,Burgraviato,2
+21066,Burgstall,Postal,Burggrafenamt,Burgraviato,2
+21069,Proveis,Proves,Burggrafenamt,Burgraviato,2
+21073,Riffian,Rifiano,Burggrafenamt,Burgraviato,2
+21080,St. Leonhard in Passeier,S. Leonardo in Passiria,Burggrafenamt,Burgraviato,2
+21083,St. Martin in Passeier,S. Martino in Passiria,Burggrafenamt,Burgraviato,2
+21084,St. Pankraz,S. Pancrazio,Burggrafenamt,Burgraviato,2
+21087,Schenna,Scena,Burggrafenamt,Burgraviato,2
+21099,Tisens,Tesimo,Burggrafenamt,Burgraviato,2
+21101,Tirol,Tirolo,Burggrafenamt,Burgraviato,2
+21104,Ulten,Ultimo,Burggrafenamt,Burgraviato,2
+21112,Vöran,Verano,Burggrafenamt,Burgraviato,2
+21118,Unsere Liebe Frau im Walde - St. Felix,Senale -S. Felice,Burggrafenamt,Burgraviato,2
+21007,Barbian,Barbiano,Eisacktal,Valle Isarco,3
+21011,Brixen,Bressanone,Eisacktal,Valle Isarco,3
+21022,Klausen,Chiusa,Eisacktal,Valle Isarco,3
+21033,Villnöss,Funes,Eisacktal,Valle Isarco,3
+21039,Lajen,Laion,Eisacktal,Valle Isarco,3
+21044,Lüsen,Luson,Eisacktal,Valle Isarco,3
+21057,Natz-Schabs,Naz-Sciaves,Eisacktal,Valle Isarco,3
+21065,Waidbruck,Ponte Gardena,Eisacktal,Valle Isarco,3
+21074,Mühlbach,Rio Pusteria,Eisacktal,Valle Isarco,3
+21075,Rodeneck,Rodengo,Eisacktal,Valle Isarco,3
+21111,Vahrn,Varna,Eisacktal,Valle Isarco,3
+21114,Villanders,Villandro,Eisacktal,Valle Isarco,3
+21116,Feldthurns,Velturno,Eisacktal,Valle Isarco,3
+21006,Abtei,Badia,Pustertal,Val Pusteria,4
+21009,Prags,Braies,Pustertal,Val Pusteria,4
+21013,Bruneck,Brunico,Pustertal,Val Pusteria,4
+21017,Sand in Taufers,Campo Tures,Pustertal,Val Pusteria,4
+21021,Kiens,Chienes,Pustertal,Val Pusteria,4
+21026,Corvara,Corvara in Badia,Pustertal,Val Pusteria,4
+21028,Toblach,Dobbiaco,Pustertal,Val Pusteria,4
+21030,Pfalzen,Falzes,Pustertal,Val Pusteria,4
+21034,Gais,Gais,Pustertal,Val Pusteria,4
+21047,Enneberg,Marebbe,Pustertal,Val Pusteria,4
+21052,Welsberg,Monguelfo,Pustertal,Val Pusteria,4
+21063,Percha,Perca,Pustertal,Val Pusteria,4
+21068,Prettau,Predoi,Pustertal,Val Pusteria,4
+21071,Rasen-Antholz,Rasun-Anterselva,Pustertal,Val Pusteria,4
+21077,Innichen,S. Candido,Pustertal,Val Pusteria,4
+21081,St. Lorenzen,S. Lorenzo di Sebato,Pustertal,Val Pusteria,4
+21082,St. Martin in Thurn,S. Martino in Badia,Pustertal,Val Pusteria,4
+21088,Mühlwald,Selva dei Molini,Pustertal,Val Pusteria,4
+21092,Sexten,Sesto,Pustertal,Val Pusteria,4
+21096,Terenten,Terento,Pustertal,Val Pusteria,4
+21106,Olang,Valdaora,Pustertal,Val Pusteria,4
+21108,Ahrntal,Valle Aurina,Pustertal,Val Pusteria,4
+21109,Gsies,Valle di Casies,Pustertal,Val Pusteria,4
+21110,Vintl,Vandoies,Pustertal,Val Pusteria,4
+21113,Niederdorf,Villabassa,Pustertal,Val Pusteria,4
+21117,Wengen,La Valle,Pustertal,Val Pusteria,4
+21019,Kastelruth,Castelrotto,Salten-Schlern,Salto-Schiliar,5
+21023,Karneid,Cornedo all'Isarco,Salten-Schlern,Salto-Schiliar,5
+21031,Völs am Schlern,Fiè allo Sciliar,Salten-Schlern,Salto-Schiliar,5
+21050,Mölten,Meltina,Salten-Schlern,Salto-Schiliar,5
+21058,Welschnofen,Nova Levante,Salten-Schlern,Salto-Schiliar,5
+21059,Deutschnofen,Nova Ponente,Salten-Schlern,Salto-Schiliar,5
+21061,St. Ulrich,Ortisei,Salten-Schlern,Salto-Schiliar,5
+21072,Ritten,Renon,Salten-Schlern,Salto-Schiliar,5
+21079,Jenesien,S. Genesio Atesino,Salten-Schlern,Salto-Schiliar,5
+21085,St. Christina in Gröden,S. Cristina Valgardena,Salten-Schlern,Salto-Schiliar,5
+21086,Sarntal,Sarentino,Salten-Schlern,Salto-Schiliar,5
+21089,Wolkenstein in Gröden,Selva di Val Gardena,Salten-Schlern,Salto-Schiliar,5
+21100,Tiers,Tires,Salten-Schlern,Salto-Schiliar,5
+21001,Aldein,Aldino,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21002,Andrian,Andriano,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21003,Altrei,Anterivo,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21004,Eppan an der Weinstrasse,Appiano sulla strada del vino,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21012,Branzoll,Bronzolo,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21015,Kaltern,Caldaro,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21024,Kurtatsch an der Weinstrasse,Cortaccia sulla strada del vino,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21025,Kurtinig an der Weinstrasse,Cortina sulla strada del vino,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21029,Neumarkt,Egna,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21040,Leifers,Laives,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21045,Margreid an der Weinstrasse,Magrè sulla strada del vino,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21053,Montan,Montagna,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21060,Auer,Ora,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21076,Salurn,Salorno,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21097,Terlan,Terlano,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21098,Tramin an der Weinstrasse,Termeno sulla strada del vino,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21102,Truden,Trodena,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21105,Pfatten,Vadena,Uberetsch-Unterland,Oltradige-Bassa Ates.,6
+21018,Kastelbell -Tschars,Castelbello - Ciardes,Vinschgau,Val Venosta,7
+21027,Graun im Vinschgau,Curon Venosta,Vinschgau,Val Venosta,7
+21036,Glurns,Glorenza,Vinschgau,Val Venosta,7
+21037,Latsch,Laces,Vinschgau,Val Venosta,7
+21042,Laas,Lasa,Vinschgau,Val Venosta,7
+21046,Mals,Malles Venosta,Vinschgau,Val Venosta,7
+21049,Martell,Martello,Vinschgau,Val Venosta,7
+21067,Prad am Stilfserjoch,Prato allo Stelvio,Vinschgau,Val Venosta,7
+21091,Schnals,Senales,Vinschgau,Val Venosta,7
+21093,Schlanders,Silandro,Vinschgau,Val Venosta,7
+21094,Schluderns,Sluderno,Vinschgau,Val Venosta,7
+21095,Stilfs,Stelvio,Vinschgau,Val Venosta,7
+21103,Taufers,Tubre,Vinschgau,Val Venosta,7
+21010,Brenner,Brennero,Wipptal,Alta Valle Isarco,8
+21016,Freienfeld,Campo di Trens,Wipptal,Alta Valle Isarco,8
+21032,Franzensfeste,Fortezza,Wipptal,Alta Valle Isarco,8
+21070,Ratschings,Racines,Wipptal,Alta Valle Isarco,8
+21107,Pfitsch,Val di Vizze,Wipptal,Alta Valle Isarco,8
+21115,Sterzing,Vipiteno,Wipptal,Alta Valle Isarco,8
