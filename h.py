@@ -130,7 +130,7 @@ def get_view():
 # arrival map
 
 
-def generate_map_diagram(overallDf, categoryDf, nationalityDf, target, isDelta=False, spec='All', year=2020, mode='General', season='', month='1', type=TYPE_GENERAL):
+def generate_map_diagram(overallDf, categoryDf, nationalityDf, target, isDelta=False, spec='All', year=2020, mode='General', season='', month='January', type=TYPE_GENERAL):
 
     months = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
               "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
