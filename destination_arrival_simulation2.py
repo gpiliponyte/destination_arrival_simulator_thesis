@@ -24,7 +24,7 @@ col1top, col2top = st.columns([5, 1])
 
 with col2top:
     get_reality_view_btn = st.button(
-        "Reality view", on_click=h.get_view, disabled=st.session_state.mode == h.REALITY)
+        "Actual Data", on_click=h.get_view, disabled=st.session_state.mode == h.REALITY)
 
 with col1top:
     st.header('Tourist Trends in South Tyrol')  # to be changed to Title
@@ -117,7 +117,7 @@ if st.session_state.mode == h.REALITY:
 
         mode_map_selectbox = st.selectbox(
             'Select Time Granularity',
-            ("General", "Month", "Seasons"),
+            ("All", "Month", "Seasons"),
             key='selectbox_symtype')
 
         overallDf = overallDictionary['2020'].copy()
@@ -368,7 +368,7 @@ if st.session_state.mode == h.SIMULATION:
 
         mode_map_selectbox_sim = st.selectbox(
             'Select Time Granularity',
-            ("General", "Month", "Seasons"),
+            ("All", "Month", "Seasons"),
             key='selectbox_symtype')
 
         overallDfSim = overallDictionary['2020'].copy()
