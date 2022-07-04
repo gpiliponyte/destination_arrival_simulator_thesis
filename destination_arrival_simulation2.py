@@ -65,7 +65,7 @@ if simulation_type != h.SIM_TYPE_CUSTOM:
     key='selectbox_N_size')
 else:
     multiselect = st.sidebar.multiselect(
-                'Destinations selected (by display order)',
+                'Destinations Selected (by Display Order)',
                 choicesDestinations,
                 [])
 
@@ -76,10 +76,11 @@ conversion_rate = st.sidebar.number_input('Conversion Rate (%): ', min_value=0, 
 value=37, help="Insert a value between 0 and 100.")
 
 def arrangeSimulation():
-    if simulation_type != h.SIM_TYPE_CUSTOM:
-        h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [])
-    else:
-        h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect)
+    with st.spinner('Calculating Simulation Results...'):
+        if simulation_type != h.SIM_TYPE_CUSTOM:
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [])
+        else:
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect)
 
 run_simulation_btn = st.sidebar.button(
     "Run", on_click=arrangeSimulation, 
