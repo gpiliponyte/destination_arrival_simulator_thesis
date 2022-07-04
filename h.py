@@ -4,16 +4,20 @@ import geopandas as gp
 import pandas as pd
 import plotly.express as px
 import numpy as np
+import math
+import random
 
-SIM_TYPE_TOPN = 'Top highlights'
-SIM_TYPE_SIMILAR_TOPN = 'Similar Top-N'
+SIM_TYPE_RANDOMN = 'Random-N'
+SIM_TYPE_TOPN = 'Top-N'
+SIM_TYPE_BOTTOMN = 'Bottom-N'
 
 REALITY = 'reality'
 SIMULATION = 'simulation'
 
-SIM_SIDE_BY_SIDE = "See Side by Side Comparison"
-SIM_ONLY_VIEW = "See only the Simulation"
-SIM_DELTA = "See Delta"
+SIM_VIEW = "Simulation View"
+SIM_DELTA = "Delta View"
+SIM_COMP = "Comparison View"
+
 
 METRIC_ARRIVALS = "Arrivals"
 METRIC_AVG_PRESENT = "AvgPresent"
@@ -23,6 +27,18 @@ METRIC_AVG_PRESENT_TO_POP = "AvgPresentToPop"
 TYPE_GENERAL = "General"
 TYPE_NAT = "By Nationality"
 TYPE_ACC = "By Type of Accomodation"
+
+district_code_map = {1: "Bozen", 2: "Burggrafenamt", 3: "Eisacktal", 4: "Pustertal", 5: "Salten-Schlern", 6: "Uberetsch-Unterland", 7: "Vinschgau", 8: "Wipptal"}
+
+months = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
+              "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
+
+CHOICE_UTILITY = 5
+DECAY_RATE = 1.2
+similarities = pd.read_csv('data/similarities_indexed.csv', index_col=0)
+arrivals2 = pd.DataFrame({})
+
+destinationDF = pd.DataFrame({})
 
 
 def setup_state():
@@ -117,11 +133,121 @@ def load_data():  # LOAD SIMULATION AND REAL DATA ON LOAD
     return municipalities, municipalities_sim, districts, nationality, category, overall, categoryDictionary, overallDictionary, nationalityDictionary
 
 
-def on_run_simulation_btn_click():
+def nameLoopup(districtCode):
+    return  district_code_map[districtCode]
+
+
+def printAdvertisements(destinations):
+    # st.write("Generated Advertisement: \n")
+    # for index, el in enumerate(destinations):
+    #     st.write('Item', index+1, ": ", district_code_map[el])
+    # st.write("\n")
+
+    # st.sidebar.subheader("Generated Advertisement")
+
+    destinationNames = list(map(nameLoopup, destinations))
+
+    destinationDF = pd.DataFrame(destinationNames, columns=['Destination'])
+    destinationDF.index = destinationDF.index + 1
+    # st.sidebar.table(destinationDF)
+
+def formatProbabilities(probabilities):
+    st.write("Selection Probabilities: \n")
+    for key in probabilities:
+        st.write(district_code_map[key], probabilities[key]*100, "%")
+
+def getUtilities(advertisement, userChoice):
+
+    utilities = {userChoice: CHOICE_UTILITY}
+
+    for index, d in enumerate(advertisement):
+        utility = similarities[str(userChoice)].loc[d]*userChoice/(DECAY_RATE**index) 
+        if d in utilities:
+            utilities[d] = utilities[d] + utility
+        else:
+            utilities[d] = utility 
+        
+    return utilities
+
+def getProbabilities(utilities):
+    
+    elSum = 0
+    probabilities = {}
+    
+    for uKey in utilities:
+        elSum = elSum + math.exp(utilities[uKey])
+    
+    for uKey in utilities:
+        probabilities[uKey] = math.exp(utilities[uKey])/elSum
+        
+    return probabilities
+
+def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate):
+
+
+    # run advertisement
+
+    arrivalCounts = pd.read_csv("data/districts_ranked.csv")
+    ac = arrivalCounts[arrivalCounts['Year'] == year]
+    
+    if type == SIM_TYPE_TOPN:
+        ad = ac['district_c'].head(n).tolist()
+    elif type == SIM_TYPE_BOTTOMN:
+        ad = ac.sort_values(by='Rank', ascending=False)['district_c'].head(n).tolist()
+    else:
+        ad = random.sample(range(1, 9), n)
+
+    printAdvertisements(ad)
+
+    # setup stuff
+    arrivals = pd.read_csv('data/nationality_long.csv')
+    arrivals = arrivals[arrivals['Year'] == year]
+
+    arrivalsDf = arrivals
+
+    # construct a new dataframe
+    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'Nationality', 'district_c', 'District', 'Arrivals'])
+    nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
+
+
+    for i, row in arrivalsDf.iterrows():
+    
+        utilities = getUtilities(ad, row['district_c'])
+        probabilities = getProbabilities(utilities)
+
+        elements = list(probabilities.keys())
+        
+        choices = random.choices(elements, weights=list(probabilities.values()), k=int(row['Arrivals']))
+        
+        start = [row['Year'], row['Month'], row['Season']]
+        
+        for nat in nationalities:
+            
+            natCount = int(row[nat])
+                
+            natChoices = choices[0:natCount]
+            choices = choices[natCount:]
+            
+            for dist in range(1, 9):
+                df.loc[len(df.index)] = start + [nat] + [dist] + [district_code_map[dist]] + [natChoices.count(dist)]
+
+    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'Nationality', 'district_c', 'District']).sum().reset_index()
+
+    simulatedResults.to_csv('data/sim.csv', index=False)
+
+    arrivals2 = pd.read_csv('data/nationality_trends.csv')
+    arrivals2 = arrivals2[arrivals2['Year'] == year]
+
+    arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c", "Nationality"], suffixes=("", "_sim"))
+    arrivals2 = arrivals2.drop(['Season_sim'], axis = 1)
+    arrivals2['Diff'] = arrivals2['Arrivals_sim'] - arrivals2['Arrivals']
+
     st.session_state['comparable'] = True
     st.session_state.nclick += 1
+    st.session_state.arrivals_sim = arrivals2
     st.session_state.executed_simulation = st.session_state.selectbox_symtype
     st.session_state.mode = SIMULATION
+
 
 
 def get_view():
@@ -130,10 +256,8 @@ def get_view():
 # arrival map
 
 
-def generate_map_diagram(overallDf, categoryDf, nationalityDf, target, isDelta=False, spec='All', year=2020, mode='General', season='', month='January', type=TYPE_GENERAL):
+def generate_map_diagram_reality(overallDf, categoryDf, nationalityDf, target, isDelta=False, spec='All', year=2020, mode='General', season='', month='January', type=TYPE_GENERAL):
 
-    months = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
-              "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
 
     if type == TYPE_NAT and spec != 'All':
         df = nationalityDf.copy()
@@ -197,6 +321,48 @@ def generate_map_diagram(overallDf, categoryDf, nationalityDf, target, isDelta=F
                 target = "AvgPresentToPopDiff"
         else:
             target = 'diff'
+
+    fig = setupMapDiagram(df, target, color_scale)
+
+    return fig
+
+def generate_map_diagram_simulation(isDelta=False, mode='General', season='', month='January'):
+
+    target = 'Arrivals'
+
+    df = st.session_state.arrivals_sim
+    districts = gp.read_file('data/geo_district_df.shp')
+
+    if mode == 'Seasons':
+        df = df.groupby(['Season', 'district_c']).sum()
+        df = df.reset_index()
+        df = districts.merge(df, on='district_c',
+                             how="inner", suffixes=('', '_y'))
+        df = df[df['Season'] == season]
+    elif mode == 'Month':
+        df = df.groupby(['Month', 'district_c']).sum()
+        df = df.reset_index()
+        df = districts.merge(df, on='district_c',
+                             how="inner", suffixes=('', '_y'))
+        df = df[df['Month'] == months[month]]
+    else:
+        df = df.groupby(['district_c']).sum()
+        df = df.reset_index()
+        df = districts.merge(df, on='district_c',
+                             how="inner", suffixes=('', '_y'))
+
+    color_scale = 'sunset'
+
+    if isDelta:
+        # "RdBu" #["red", "white", "green"]
+        color_scale = ['#eb8383', "#ffffff", '#5b5399']
+        target = 'Diff'
+
+    fig = setupMapDiagram(df, target, color_scale)
+
+    return fig
+
+def setupMapDiagram(df, target, color_scale):
 
     df['Rank'] = df[target].rank(ascending=False)
 
@@ -270,21 +436,23 @@ def on_reality_bar_chart_setup(df, nationalityBarDf, categoryBarDf, target, type
     return fig
 
 
-def generate_simulation_bar_chart(df, y='diff', title='title'):
+def generate_simulation_bar_chart(df, y='Diff', title='title'):
+    
+    df = df.groupby(["Year", "District"]).sum().reset_index()
 
     format = '.2s'
 
     if df[y][0] < 1 and df[y][0] > -1:
-        format = '.2f'
+        format = '.3f'
 
-    fig = px.bar(df, y=y, x='district_i', text_auto=format,
+    fig = px.bar(df, y=y, x='District', text_auto=format,
                  title=title,
                  color_continuous_scale=['#eb8383', "#ffffff", '#5b5399'],
                  color=y,
                  labels={
-                     'arrivi_tot': 'Demand (real)', 'district_i': "District"},
-                 text='diff',
-                 hover_data=["district_i", y],
+                     'arrivi_tot': 'Demand (real)', 'District': "District"},
+                 text='Diff',
+                 hover_data=["District", y],
                  height=600)
 
     fig.update_layout(

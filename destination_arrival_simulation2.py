@@ -37,30 +37,35 @@ with st.spinner('Loading data...'):
 # SETUP SIDEBAR
 #
 
+simulation_year = st.sidebar.selectbox(
+    'Simulation Year:',
+    (2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010),
+    index=1,
+    key='simulation_year')
+
 simulation_type = st.sidebar.selectbox(
-    'Which marketing campaign do you want to test?',
-    (h.SIM_TYPE_TOPN, h.SIM_TYPE_SIMILAR_TOPN),
+    'Marketing Campaign:',
+    (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN),
     key='selectbox_symtype')
 
-if simulation_type == h.SIM_TYPE_SIMILAR_TOPN:
-    option_N = st.sidebar.selectbox(
-        'Size of N:',
-        (5, 10, 20, 30, 40, 50),
-        key='selectbox_N_size')
+option_N = st.sidebar.selectbox(
+    'Size of N:',
+    (1, 2, 3, 4, 5, 6, 7, 8),
+    index=2,
+    key='selectbox_N_size')
+
+conversion_rate = st.sidebar.number_input('Conversion Rate (%): ', min_value=0, max_value=100, 
+value=37, help="Insert a value between 0 and 100.")
+
+seen_rate = st.sidebar.number_input('Seen Rate (%): ', min_value=0, max_value=100, 
+value=90, help="Insert A value between 0 and 100.")
+
+def arrangeSimulation():
+    h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, option_N)
 
 run_simulation_btn = st.sidebar.button(
-    "Run", on_click=h.on_run_simulation_btn_click, disabled=simulation_type is None)
-
-
-districts_sim = overall.copy()
-districts_sim['sim_arrivals'] = np.random.permutation(
-    overall["Arrivals"].values)
-districts_sim['sim_present'] = np.random.permutation(overall['Present'].values)
-districts_sim['diff'] = districts_sim['Arrivals'] - \
-    districts_sim['sim_arrivals']
-
-
-p_rec = 0.
+    "Run", on_click=arrangeSimulation, 
+    disabled=simulation_type is None and option_N is None)
 
 
 if st.session_state.mode == h.REALITY:
@@ -129,7 +134,7 @@ if st.session_state.mode == h.REALITY:
         nationalityDf = nationalityDictionary[str(year_map_selectbox)]
         categoryDf = categoryDictionary[str(year_map_selectbox)]
 
-    fig_map_reality = h.generate_map_diagram(
+    fig_map_reality = h.generate_map_diagram_reality(
         overallDf, categoryDf, nationalityDf, metric_map_selectbox, spec=spec_map_selectbox, year=year_map_selectbox, mode=mode_map_selectbox, type=mode_cat_nat_selectbox)
 
     if mode_map_selectbox == "Seasons":
@@ -140,7 +145,7 @@ if st.session_state.mode == h.REALITY:
                 key='selectbox_symtype')
 
         if season_map_selectbox:
-            fig_map_reality = h.generate_map_diagram(
+            fig_map_reality = h.generate_map_diagram_reality(
                 overallDf, categoryDf, nationalityDf, metric_map_selectbox, spec=spec_map_selectbox, year=year_map_selectbox, mode=mode_map_selectbox, season=season_map_selectbox, type=mode_cat_nat_selectbox)
 
     if mode_map_selectbox == "Month":
@@ -152,7 +157,7 @@ if st.session_state.mode == h.REALITY:
                 key='selectbox_symtype')
 
         if month_map_selectbox:
-            fig_map_reality = h.generate_map_diagram(
+            fig_map_reality = h.generate_map_diagram_reality(
                 overallDf, categoryDf, nationalityDf, metric_map_selectbox, spec=spec_map_selectbox, year=year_map_selectbox, mode=mode_map_selectbox, month=month_map_selectbox, type=mode_cat_nat_selectbox)
 
         # Update remaining layout properties
@@ -353,36 +358,17 @@ if st.session_state.mode == h.SIMULATION:
 
         sim_mode = st.radio(
             "",
-            ('Simulation View', 'Delta View'))
+            (h.SIM_VIEW, h.SIM_DELTA))
 
-        metric_map_selectbox_sim = st.selectbox(
-            'Select Metric:',
-            (h.METRIC_ARRIVALS, h.METRIC_AVG_PRESENT,
-             h.METRIC_AVG_PRESENT_TO_BEDS, h.METRIC_AVG_PRESENT_TO_POP),
-            key='selectbox_symtype')
-
-        year_map_selectbox_sim = st.selectbox(
-            'Select Year',
-            (2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010),
-            key='selectbox_symtype')
+        isDelta = True if sim_mode == h.SIM_DELTA else False
 
         mode_map_selectbox_sim = st.selectbox(
             'Select Time Granularity',
             ("All", "Month", "Seasons"),
             key='selectbox_symtype')
 
-        overallDfSim = overallDictionary['2020'].copy()
-        nationalityDfSim = nationalityDictionary['2020'].copy()
-        categoryDfSim = categoryDictionary['2020'].copy()
-
-        if year_map_selectbox_sim:
-            overallDfSim = overallDictionary[str(year_map_selectbox_sim)]
-            nationalityDfSim = nationalityDictionary[str(
-                year_map_selectbox_sim)]
-            categoryDfSim = categoryDictionary[str(year_map_selectbox_sim)]
-
-        fig_map_simulation = h.generate_map_diagram(
-            overallDfSim, categoryDfSim, nationalityDfSim, metric_map_selectbox_sim, isDelta=sim_mode == "Delta View", spec=spec_map_selectbox_sim, year=year_map_selectbox_sim, mode=mode_map_selectbox_sim)
+        fig_map_simulation = h.generate_map_diagram_simulation(
+            isDelta, mode=mode_map_selectbox_sim)
 
         if mode_map_selectbox_sim == "Seasons":
             with col1SimMap:
@@ -392,20 +378,20 @@ if st.session_state.mode == h.SIMULATION:
                     key='selectbox_symtype')
 
             if season_map_selectbox_sim:
-                fig_map_simulation = h.generate_map_diagram(
-                    overallDfSim, categoryDfSim, nationalityDfSim, metric_map_selectbox_sim, isDelta=sim_mode == "View Delta", spec=spec_map_selectbox_sim, year=year_map_selectbox_sim, mode=mode_map_selectbox_sim, season=season_map_selectbox_sim)
+                fig_map_simulation = h.generate_map_diagram_simulation(
+                    isDelta, mode=mode_map_selectbox_sim, season=season_map_selectbox_sim)
 
         if mode_map_selectbox_sim == "Month":
-            with mapCol1:
+            with col1SimMap:
                 month_map_selectbox_sim = st.selectbox(
                     'Select Month',
                     ("January", "February", "March", "April", "May", "June", "July",
                      "August", "September", "October", "November", "December"),
                     key='selectbox_symtype')
 
-            if month_map_selectbox:
-                fig_map_simulation = h.generate_map_diagram(
-                    overallDfSim, categoryDfSim, nationalityDfSim, metric_map_selectbox_sim, isDelta=sim_mode == "View Delta", spec=spec_map_selectbox_sim, year=year_map_selectbox_sim, mode=mode_map_selectbox_sim, month=month_map_selectbox_sim)
+            if month_map_selectbox_sim:
+                fig_map_simulation = h.generate_map_diagram_simulation(
+                    isDelta, mode=mode_map_selectbox_sim, month=month_map_selectbox_sim)
 
             # Update remaining layout properties
             fig_map_simulation.update_layout(
@@ -422,37 +408,21 @@ if st.session_state.mode == h.SIMULATION:
 
         sim_mode = st.radio(
             "",
-            ('Comparison View', 'Delta View'))
-
-        metric_bar_selectbox_sim = st.selectbox(
-            'Select Metric:',
-            (h.METRIC_ARRIVALS, h.METRIC_AVG_PRESENT,
-             h.METRIC_AVG_PRESENT_TO_BEDS, h.METRIC_AVG_PRESENT_TO_POP),
-            key='selectbox_sim_symtype')
+            (h.SIM_COMP, h.SIM_DELTA))
 
     with col2SimBar:
 
-        df = overallDictionary['2020'].copy()
-        df['type'] = "Reality"
-        df["AvgPresent"] = df["Present"] / 365
-        df["AvgPresentToBeds"] = df["AvgPresent"] / df["beds"]
-        df["AvgPresentToPop"] = df["AvgPresent"] / df["population"]
-        df["AvgPresentSim"] = df["sim_present"] / 365
-        df["AvgPresentToBedsSim"] = df["AvgPresentSim"] / df["beds"]
-        df["AvgPresentToPopSim"] = df["AvgPresentSim"] / df["population"]
-        temp = df.copy()
-        temp['type'] = "Simulation"
-        temp['Arrivals'] = temp['sim_arrivals']
-        temp['Present'] = temp['sim_present']
-        temp["AvgPresent"] = temp["AvgPresentSim"]
-        temp["AvgPresentToBeds"] = temp["AvgPresentToBedsSim"]
-        temp["AvgPresentToPop"] = temp["AvgPresentToPopSim"]
-        df_comparison_real_and_sim = temp.append(df)
-
         if sim_mode == "Comparison View":
 
-            fig_histogram_arrivals_comparison = px.histogram(df_comparison_real_and_sim, x="district_i", y=metric_bar_selectbox_sim, color='type', barmode='group', title=f"Comparison in {metric_bar_selectbox_sim} for District (Reality / Simulation)",
-                                                             color_discrete_sequence=['#fac484', '#5b5399'], height=600, labels={"district_i": "District",
+            df = st.session_state.arrivals_sim
+            df['type'] = "Reality"
+            temp = df.copy()
+            temp['type'] = "Simulation"
+            temp['Arrivals'] = temp['Arrivals_sim']
+            df_comparison_real_and_sim = temp.append(df)
+
+            fig_histogram_arrivals_comparison = px.histogram(df_comparison_real_and_sim, x="District", y='Arrivals', color='type', barmode='group', title=f"Comparison in Arrivals for District (Reality / Simulation)",
+                                                             color_discrete_sequence=['#fac484', '#5b5399'], height=600, labels={"District": "District",
                                                                                                                                  "Arrivals": "Arrivals"
                                                                                                                                  })
             st.plotly_chart(fig_histogram_arrivals_comparison,
@@ -460,18 +430,10 @@ if st.session_state.mode == h.SIMULATION:
 
         if sim_mode == "Delta View":
 
-            df['ArrivalsDiff'] = df['Arrivals'] - df['sim_arrivals']
-            df['AvgPresentDiff'] = df['AvgPresent'] - df['AvgPresentSim']
-            df['AvgPresentToBedsDiff'] = df['AvgPresentToBeds'] - \
-                df['AvgPresentToBedsSim']
-            df['AvgPresentToPopDiff'] = df['AvgPresentToPop'] - \
-                df['AvgPresentToPopSim']
-
-            df = df.groupby(['district_i']).sum()
-            df = df.reset_index()
+            df = st.session_state.arrivals_sim.copy()
 
             figbar = h.generate_simulation_bar_chart(
-                df, y=metric_bar_selectbox_sim + 'Diff', title=f'Difference in {metric_bar_selectbox_sim} for District (After Simulation)')
+                df, y='Diff', title=f'Difference in Arrivals for District (After Simulation)')
             st.plotly_chart(figbar, use_container_width=True)
 
     col1SimTime, col2SimTime = st.columns([1, 5])
@@ -499,7 +461,7 @@ span[data-baseweb="tag"] {
         )
 
         if mode == "District":
-            choices = overall['district_i'].unique()
+            choices = st.session_state.arrivals_sim['District'].unique()
             filteredItems = st.multiselect(
                 'Displayed Districts',
                 choices,
@@ -509,25 +471,28 @@ span[data-baseweb="tag"] {
 
     with col2SimTime:
         # temp = overall.copy()['district_i']
-        time = overall.copy()
-        overall['type'] = "Reality"
+        time = st.session_state.arrivals_sim.copy()
+        st.session_state.arrivals_sim['type'] = "Reality"
         time['type'] = "Simulation"
-        time['Arrivals'] = time['sim_arrivals']
-        time = time.append(overall)
+        time['Arrivals'] = time['Arrivals_sim']
+        time = time.append(st.session_state.arrivals_sim)
         time['Day'] = 1
         time['Date'] = pd.to_datetime(time[['Year', 'Month', 'Day']])
 
         if mode == "Total":
-            time = time.groupby(['Date', 'type']).sum()
-            time = time.reset_index()
+            totaldf = st.session_state.arrivals_sim.copy()
+            totaldf['Day'] = 1
+            totaldf['Date'] = pd.to_datetime(totaldf[['Year', 'Month', 'Day']])
+            totaldf = totaldf.groupby(['Date']).sum()
+            totaldf = totaldf.reset_index()
 
-            time_fig = px.line(time, x="Date", y="Arrivals",
-                               title='Total Arrivals', color='type', height=700)
+            time_fig = px.line(totaldf, x="Date", y="Arrivals",
+                               title='Total Arrivals', height=700)
         if mode == "District":
-            time = time[time['district_i'].isin(filteredItems)]
-            time = time.groupby(['Date', 'type', 'district_i']).sum()
+            time = time[time['District'].isin(filteredItems)]
+            time = time.groupby(['Date', 'type', 'District']).sum()
             time = time.reset_index()
-            time['district'] = time['type'] + ' ' + time['district_i']
+            time['district'] = time['type'] + ' ' + time['District']
 
             time_fig = px.line(time, x="Date", y="Arrivals",
                                title='Arrivals by District', color='district', height=700)
@@ -547,10 +512,10 @@ span[data-baseweb="tag"] {
                              label="6m",
                              step="month",
                              stepmode="backward"),
-                        dict(count=1,
-                             label="1y",
-                             step="year",
-                             stepmode="backward"),
+                        # dict(count=1,
+                        #      label="1y",
+                        #      step="year",
+                        #      stepmode="backward"),
                         dict(step="all")
                     ])
                 ),
