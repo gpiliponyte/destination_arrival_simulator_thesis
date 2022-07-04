@@ -1,3 +1,4 @@
+from audioop import mul
 import streamlit as st
 import numpy as np
 import plotly.express as px
@@ -37,6 +38,14 @@ with st.spinner('Loading data...'):
 # SETUP SIDEBAR
 #
 
+if st.session_state.mode == h.SIMULATION:
+    st.sidebar.subheader('Advertisement')
+    st.sidebar.table(st.session_state.advertisement)
+
+st.sidebar.subheader('Simulation Setup')
+
+choicesDestinations = overall['district_g'].unique()
+
 simulation_year = st.sidebar.selectbox(
     'Simulation Year:',
     (2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010),
@@ -45,27 +54,36 @@ simulation_year = st.sidebar.selectbox(
 
 simulation_type = st.sidebar.selectbox(
     'Marketing Campaign:',
-    (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN),
+    (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN, h.SIM_TYPE_CUSTOM),
     key='selectbox_symtype')
 
-option_N = st.sidebar.selectbox(
+if simulation_type != h.SIM_TYPE_CUSTOM:
+    option_N = st.sidebar.selectbox(
     'Size of N:',
     (1, 2, 3, 4, 5, 6, 7, 8),
     index=2,
     key='selectbox_N_size')
+else:
+    multiselect = st.sidebar.multiselect(
+                'Destinations selected (by display order)',
+                choicesDestinations,
+                [])
+
+seen_rate = st.sidebar.number_input('Seen Rate (%): ', min_value=0, max_value=100, 
+value=100, help="Insert A value between 0 and 100.")
 
 conversion_rate = st.sidebar.number_input('Conversion Rate (%): ', min_value=0, max_value=100, 
 value=37, help="Insert a value between 0 and 100.")
 
-seen_rate = st.sidebar.number_input('Seen Rate (%): ', min_value=0, max_value=100, 
-value=90, help="Insert A value between 0 and 100.")
-
 def arrangeSimulation():
-    h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, option_N)
+    if simulation_type != h.SIM_TYPE_CUSTOM:
+        h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [])
+    else:
+        h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect)
 
 run_simulation_btn = st.sidebar.button(
     "Run", on_click=arrangeSimulation, 
-    disabled=simulation_type is None and option_N is None)
+    disabled=simulation_type is None or ('multiselect' in globals() and multiselect == []))
 
 
 if st.session_state.mode == h.REALITY:
@@ -111,9 +129,6 @@ if st.session_state.mode == h.REALITY:
                 'Select Accommodation Type',
                 accommodations,
                 key='selectbox_symtype')
-
-        # if mode_cat_nat_selectbox == 'By Type of Accomodation':
-        #     spec_map_selectbox = "All"
 
         year_map_selectbox = st.selectbox(
             'Select Year',
@@ -512,10 +527,6 @@ span[data-baseweb="tag"] {
                              label="6m",
                              step="month",
                              stepmode="backward"),
-                        # dict(count=1,
-                        #      label="1y",
-                        #      step="year",
-                        #      stepmode="backward"),
                         dict(step="all")
                     ])
                 ),

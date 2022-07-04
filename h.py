@@ -10,6 +10,7 @@ import random
 SIM_TYPE_RANDOMN = 'Random-N'
 SIM_TYPE_TOPN = 'Top-N'
 SIM_TYPE_BOTTOMN = 'Bottom-N'
+SIM_TYPE_CUSTOM = 'Custom'
 
 REALITY = 'reality'
 SIMULATION = 'simulation'
@@ -29,6 +30,8 @@ TYPE_NAT = "By Nationality"
 TYPE_ACC = "By Type of Accomodation"
 
 district_code_map = {1: "Bozen", 2: "Burggrafenamt", 3: "Eisacktal", 4: "Pustertal", 5: "Salten-Schlern", 6: "Uberetsch-Unterland", 7: "Vinschgau", 8: "Wipptal"}
+
+district_code_map_reverse = {"Bozen": 1, "Burggrafenamt": 2, "Eisacktal": 3, "Pustertal": 4, "Salten-Schlern": 5, "Uberetsch-Unterland": 6, "Vinschgau": 7, "Wipptal": 8}
 
 months = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
               "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
@@ -136,32 +139,25 @@ def load_data():  # LOAD SIMULATION AND REAL DATA ON LOAD
 def nameLoopup(districtCode):
     return  district_code_map[districtCode]
 
+def codeLoopup(districtName):
+    return  district_code_map_reverse[districtName]
 
-def printAdvertisements(destinations):
-    # st.write("Generated Advertisement: \n")
-    # for index, el in enumerate(destinations):
-    #     st.write('Item', index+1, ": ", district_code_map[el])
-    # st.write("\n")
 
-    # st.sidebar.subheader("Generated Advertisement")
+def getAdvertisemnentTable(destinations):
 
     destinationNames = list(map(nameLoopup, destinations))
 
     destinationDF = pd.DataFrame(destinationNames, columns=['Destination'])
     destinationDF.index = destinationDF.index + 1
-    # st.sidebar.table(destinationDF)
-
-def formatProbabilities(probabilities):
-    st.write("Selection Probabilities: \n")
-    for key in probabilities:
-        st.write(district_code_map[key], probabilities[key]*100, "%")
+    
+    return destinationDF
 
 def getUtilities(advertisement, userChoice):
 
     utilities = {userChoice: CHOICE_UTILITY}
 
     for index, d in enumerate(advertisement):
-        utility = similarities[str(userChoice)].loc[d]*userChoice/(DECAY_RATE**index) 
+        utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(DECAY_RATE**index) 
         if d in utilities:
             utilities[d] = utilities[d] + utility
         else:
@@ -182,9 +178,10 @@ def getProbabilities(utilities):
         
     return probabilities
 
-def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate):
+def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect):
 
-
+    # seen_rate = 0.6#conv_rate / 100
+    
     # run advertisement
 
     arrivalCounts = pd.read_csv("data/districts_ranked.csv")
@@ -194,10 +191,15 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate):
         ad = ac['district_c'].head(n).tolist()
     elif type == SIM_TYPE_BOTTOMN:
         ad = ac.sort_values(by='Rank', ascending=False)['district_c'].head(n).tolist()
+    elif type == SIM_TYPE_CUSTOM:
+        ad = list(map(codeLoopup, multiselect))
     else:
         ad = random.sample(range(1, 9), n)
 
-    printAdvertisements(ad)
+    getAdvertisemnentTable(ad)
+
+    st.session_state.advertisement = getAdvertisemnentTable(ad)
+
 
     # setup stuff
     arrivals = pd.read_csv('data/nationality_long.csv')
@@ -208,6 +210,12 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate):
     # construct a new dataframe
     df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'Nationality', 'district_c', 'District', 'Arrivals'])
     nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
+
+    nonArrivals = arrivalsDf.copy()
+    arrivalsDf[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']] = arrivalsDf[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']].multiply(seen_rate/100).round()
+
+    nonArrivals[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']] = nonArrivals[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']] - arrivalsDf[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']]
+
 
 
     for i, row in arrivalsDf.iterrows():
@@ -227,6 +235,9 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate):
                 
             natChoices = choices[0:natCount]
             choices = choices[natCount:]
+
+            s_row = pd.Series(start + [nat] + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, nat]], index=df.columns)
+            df = df.append(s_row,ignore_index=True)
             
             for dist in range(1, 9):
                 df.loc[len(df.index)] = start + [nat] + [dist] + [district_code_map[dist]] + [natChoices.count(dist)]
