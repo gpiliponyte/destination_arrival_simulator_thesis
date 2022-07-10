@@ -1,577 +1,97 @@
-Year,Month,Season,Nationality,district_c,District,Arrivals
-2019,1.0,Winter,Austria,1,Bozen,644.0
-2019,1.0,Winter,Austria,2,Burggrafenamt,1372.0
-2019,1.0,Winter,Austria,3,Eisacktal,871.0
-2019,1.0,Winter,Austria,4,Pustertal,5780.0
-2019,1.0,Winter,Austria,5,Salten-Schlern,2553.0
-2019,1.0,Winter,Austria,6,Uberetsch-Unterland,222.0
-2019,1.0,Winter,Austria,7,Vinschgau,439.0
-2019,1.0,Winter,Austria,8,Wipptal,794.0
-2019,1.0,Winter,Benelux countries,1,Bozen,146.0
-2019,1.0,Winter,Benelux countries,2,Burggrafenamt,428.0
-2019,1.0,Winter,Benelux countries,3,Eisacktal,393.0
-2019,1.0,Winter,Benelux countries,4,Pustertal,5208.0
-2019,1.0,Winter,Benelux countries,5,Salten-Schlern,6043.0
-2019,1.0,Winter,Benelux countries,6,Uberetsch-Unterland,53.0
-2019,1.0,Winter,Benelux countries,7,Vinschgau,490.0
-2019,1.0,Winter,Benelux countries,8,Wipptal,424.0
-2019,1.0,Winter,Germany,1,Bozen,1686.0
-2019,1.0,Winter,Germany,2,Burggrafenamt,12868.0
-2019,1.0,Winter,Germany,3,Eisacktal,13687.0
-2019,1.0,Winter,Germany,4,Pustertal,83400.0
-2019,1.0,Winter,Germany,5,Salten-Schlern,35277.0
-2019,1.0,Winter,Germany,6,Uberetsch-Unterland,1827.0
-2019,1.0,Winter,Germany,7,Vinschgau,10911.0
-2019,1.0,Winter,Germany,8,Wipptal,14454.0
-2019,1.0,Winter,Italy,1,Bozen,13254.0
-2019,1.0,Winter,Italy,2,Burggrafenamt,26892.0
-2019,1.0,Winter,Italy,3,Eisacktal,11085.0
-2019,1.0,Winter,Italy,4,Pustertal,114094.0
-2019,1.0,Winter,Italy,5,Salten-Schlern,47155.0
-2019,1.0,Winter,Italy,6,Uberetsch-Unterland,6523.0
-2019,1.0,Winter,Italy,7,Vinschgau,4604.0
-2019,1.0,Winter,Italy,8,Wipptal,12521.0
-2019,1.0,Winter,Other countries,1,Bozen,2404.0
-2019,1.0,Winter,Other countries,2,Burggrafenamt,3486.0
-2019,1.0,Winter,Other countries,3,Eisacktal,2838.0
-2019,1.0,Winter,Other countries,4,Pustertal,51961.0
-2019,1.0,Winter,Other countries,5,Salten-Schlern,28712.0
-2019,1.0,Winter,Other countries,6,Uberetsch-Unterland,941.0
-2019,1.0,Winter,Other countries,7,Vinschgau,2733.0
-2019,1.0,Winter,Other countries,8,Wipptal,1361.0
-2019,1.0,Winter,Switzerland and Liechtenstein,1,Bozen,223.0
-2019,1.0,Winter,Switzerland and Liechtenstein,2,Burggrafenamt,1789.0
-2019,1.0,Winter,Switzerland and Liechtenstein,3,Eisacktal,669.0
-2019,1.0,Winter,Switzerland and Liechtenstein,4,Pustertal,3770.0
-2019,1.0,Winter,Switzerland and Liechtenstein,5,Salten-Schlern,3197.0
-2019,1.0,Winter,Switzerland and Liechtenstein,6,Uberetsch-Unterland,128.0
-2019,1.0,Winter,Switzerland and Liechtenstein,7,Vinschgau,1770.0
-2019,1.0,Winter,Switzerland and Liechtenstein,8,Wipptal,621.0
-2019,2.0,Winter,Austria,1,Bozen,791.0
-2019,2.0,Winter,Austria,2,Burggrafenamt,2768.0
-2019,2.0,Winter,Austria,3,Eisacktal,1182.0
-2019,2.0,Winter,Austria,4,Pustertal,10826.0
-2019,2.0,Winter,Austria,5,Salten-Schlern,3777.0
-2019,2.0,Winter,Austria,6,Uberetsch-Unterland,322.0
-2019,2.0,Winter,Austria,7,Vinschgau,1021.0
-2019,2.0,Winter,Austria,8,Wipptal,1143.0
-2019,2.0,Winter,Benelux countries,1,Bozen,207.0
-2019,2.0,Winter,Benelux countries,2,Burggrafenamt,1376.0
-2019,2.0,Winter,Benelux countries,3,Eisacktal,1848.0
-2019,2.0,Winter,Benelux countries,4,Pustertal,11013.0
-2019,2.0,Winter,Benelux countries,5,Salten-Schlern,12287.0
-2019,2.0,Winter,Benelux countries,6,Uberetsch-Unterland,92.0
-2019,2.0,Winter,Benelux countries,7,Vinschgau,1823.0
-2019,2.0,Winter,Benelux countries,8,Wipptal,1044.0
-2019,2.0,Winter,Germany,1,Bozen,2185.0
-2019,2.0,Winter,Germany,2,Burggrafenamt,16367.0
-2019,2.0,Winter,Germany,3,Eisacktal,16562.0
-2019,2.0,Winter,Germany,4,Pustertal,91911.0
-2019,2.0,Winter,Germany,5,Salten-Schlern,45986.0
-2019,2.0,Winter,Germany,6,Uberetsch-Unterland,1920.0
-2019,2.0,Winter,Germany,7,Vinschgau,14697.0
-2019,2.0,Winter,Germany,8,Wipptal,16365.0
-2019,2.0,Winter,Italy,1,Bozen,9451.0
-2019,2.0,Winter,Italy,2,Burggrafenamt,18125.0
-2019,2.0,Winter,Italy,3,Eisacktal,9283.0
-2019,2.0,Winter,Italy,4,Pustertal,110529.0
-2019,2.0,Winter,Italy,5,Salten-Schlern,43730.0
-2019,2.0,Winter,Italy,6,Uberetsch-Unterland,3844.0
-2019,2.0,Winter,Italy,7,Vinschgau,4248.0
-2019,2.0,Winter,Italy,8,Wipptal,9683.0
-2019,2.0,Winter,Other countries,1,Bozen,2387.0
-2019,2.0,Winter,Other countries,2,Burggrafenamt,4639.0
-2019,2.0,Winter,Other countries,3,Eisacktal,5913.0
-2019,2.0,Winter,Other countries,4,Pustertal,62540.0
-2019,2.0,Winter,Other countries,5,Salten-Schlern,33668.0
-2019,2.0,Winter,Other countries,6,Uberetsch-Unterland,1233.0
-2019,2.0,Winter,Other countries,7,Vinschgau,3656.0
-2019,2.0,Winter,Other countries,8,Wipptal,2458.0
-2019,2.0,Winter,Switzerland and Liechtenstein,1,Bozen,260.0
-2019,2.0,Winter,Switzerland and Liechtenstein,2,Burggrafenamt,2682.0
-2019,2.0,Winter,Switzerland and Liechtenstein,3,Eisacktal,1286.0
-2019,2.0,Winter,Switzerland and Liechtenstein,4,Pustertal,5171.0
-2019,2.0,Winter,Switzerland and Liechtenstein,5,Salten-Schlern,3664.0
-2019,2.0,Winter,Switzerland and Liechtenstein,6,Uberetsch-Unterland,114.0
-2019,2.0,Winter,Switzerland and Liechtenstein,7,Vinschgau,2627.0
-2019,2.0,Winter,Switzerland and Liechtenstein,8,Wipptal,878.0
-2019,3.0,Spring,Austria,1,Bozen,1501.0
-2019,3.0,Spring,Austria,2,Burggrafenamt,4081.0
-2019,3.0,Spring,Austria,3,Eisacktal,1021.0
-2019,3.0,Spring,Austria,4,Pustertal,7812.0
-2019,3.0,Spring,Austria,5,Salten-Schlern,3361.0
-2019,3.0,Spring,Austria,6,Uberetsch-Unterland,754.0
-2019,3.0,Spring,Austria,7,Vinschgau,1240.0
-2019,3.0,Spring,Austria,8,Wipptal,929.0
-2019,3.0,Spring,Benelux countries,1,Bozen,244.0
-2019,3.0,Spring,Benelux countries,2,Burggrafenamt,793.0
-2019,3.0,Spring,Benelux countries,3,Eisacktal,991.0
-2019,3.0,Spring,Benelux countries,4,Pustertal,13067.0
-2019,3.0,Spring,Benelux countries,5,Salten-Schlern,9808.0
-2019,3.0,Spring,Benelux countries,6,Uberetsch-Unterland,155.0
-2019,3.0,Spring,Benelux countries,7,Vinschgau,1213.0
-2019,3.0,Spring,Benelux countries,8,Wipptal,836.0
-2019,3.0,Spring,Germany,1,Bozen,4965.0
-2019,3.0,Spring,Germany,2,Burggrafenamt,34086.0
-2019,3.0,Spring,Germany,3,Eisacktal,16245.0
-2019,3.0,Spring,Germany,4,Pustertal,100967.0
-2019,3.0,Spring,Germany,5,Salten-Schlern,50979.0
-2019,3.0,Spring,Germany,6,Uberetsch-Unterland,4922.0
-2019,3.0,Spring,Germany,7,Vinschgau,20400.0
-2019,3.0,Spring,Germany,8,Wipptal,19201.0
-2019,3.0,Spring,Italy,1,Bozen,9547.0
-2019,3.0,Spring,Italy,2,Burggrafenamt,19691.0
-2019,3.0,Spring,Italy,3,Eisacktal,7594.0
-2019,3.0,Spring,Italy,4,Pustertal,85834.0
-2019,3.0,Spring,Italy,5,Salten-Schlern,40718.0
-2019,3.0,Spring,Italy,6,Uberetsch-Unterland,4492.0
-2019,3.0,Spring,Italy,7,Vinschgau,5132.0
-2019,3.0,Spring,Italy,8,Wipptal,8225.0
-2019,3.0,Spring,Other countries,1,Bozen,3061.0
-2019,3.0,Spring,Other countries,2,Burggrafenamt,3785.0
-2019,3.0,Spring,Other countries,3,Eisacktal,2869.0
-2019,3.0,Spring,Other countries,4,Pustertal,30531.0
-2019,3.0,Spring,Other countries,5,Salten-Schlern,18109.0
-2019,3.0,Spring,Other countries,6,Uberetsch-Unterland,1051.0
-2019,3.0,Spring,Other countries,7,Vinschgau,3299.0
-2019,3.0,Spring,Other countries,8,Wipptal,1490.0
-2019,3.0,Spring,Switzerland and Liechtenstein,1,Bozen,478.0
-2019,3.0,Spring,Switzerland and Liechtenstein,2,Burggrafenamt,4984.0
-2019,3.0,Spring,Switzerland and Liechtenstein,3,Eisacktal,435.0
-2019,3.0,Spring,Switzerland and Liechtenstein,4,Pustertal,4012.0
-2019,3.0,Spring,Switzerland and Liechtenstein,5,Salten-Schlern,3367.0
-2019,3.0,Spring,Switzerland and Liechtenstein,6,Uberetsch-Unterland,315.0
-2019,3.0,Spring,Switzerland and Liechtenstein,7,Vinschgau,2197.0
-2019,3.0,Spring,Switzerland and Liechtenstein,8,Wipptal,692.0
-2019,4.0,Spring,Austria,1,Bozen,2052.0
-2019,4.0,Spring,Austria,2,Burggrafenamt,10960.0
-2019,4.0,Spring,Austria,3,Eisacktal,1079.0
-2019,4.0,Spring,Austria,4,Pustertal,4117.0
-2019,4.0,Spring,Austria,5,Salten-Schlern,1801.0
-2019,4.0,Spring,Austria,6,Uberetsch-Unterland,2809.0
-2019,4.0,Spring,Austria,7,Vinschgau,1426.0
-2019,4.0,Spring,Austria,8,Wipptal,842.0
-2019,4.0,Spring,Benelux countries,1,Bozen,311.0
-2019,4.0,Spring,Benelux countries,2,Burggrafenamt,1451.0
-2019,4.0,Spring,Benelux countries,3,Eisacktal,441.0
-2019,4.0,Spring,Benelux countries,4,Pustertal,5232.0
-2019,4.0,Spring,Benelux countries,5,Salten-Schlern,702.0
-2019,4.0,Spring,Benelux countries,6,Uberetsch-Unterland,473.0
-2019,4.0,Spring,Benelux countries,7,Vinschgau,672.0
-2019,4.0,Spring,Benelux countries,8,Wipptal,392.0
-2019,4.0,Spring,Germany,1,Bozen,7717.0
-2019,4.0,Spring,Germany,2,Burggrafenamt,99668.0
-2019,4.0,Spring,Germany,3,Eisacktal,11666.0
-2019,4.0,Spring,Germany,4,Pustertal,37958.0
-2019,4.0,Spring,Germany,5,Salten-Schlern,16878.0
-2019,4.0,Spring,Germany,6,Uberetsch-Unterland,20740.0
-2019,4.0,Spring,Germany,7,Vinschgau,17373.0
-2019,4.0,Spring,Germany,8,Wipptal,9685.0
-2019,4.0,Spring,Italy,1,Bozen,8789.0
-2019,4.0,Spring,Italy,2,Burggrafenamt,20201.0
-2019,4.0,Spring,Italy,3,Eisacktal,4885.0
-2019,4.0,Spring,Italy,4,Pustertal,34007.0
-2019,4.0,Spring,Italy,5,Salten-Schlern,9407.0
-2019,4.0,Spring,Italy,6,Uberetsch-Unterland,5372.0
-2019,4.0,Spring,Italy,7,Vinschgau,4131.0
-2019,4.0,Spring,Italy,8,Wipptal,7022.0
-2019,4.0,Spring,Other countries,1,Bozen,4211.0
-2019,4.0,Spring,Other countries,2,Burggrafenamt,4748.0
-2019,4.0,Spring,Other countries,3,Eisacktal,1641.0
-2019,4.0,Spring,Other countries,4,Pustertal,5752.0
-2019,4.0,Spring,Other countries,5,Salten-Schlern,2464.0
-2019,4.0,Spring,Other countries,6,Uberetsch-Unterland,1453.0
-2019,4.0,Spring,Other countries,7,Vinschgau,1785.0
-2019,4.0,Spring,Other countries,8,Wipptal,1074.0
-2019,4.0,Spring,Switzerland and Liechtenstein,1,Bozen,1013.0
-2019,4.0,Spring,Switzerland and Liechtenstein,2,Burggrafenamt,23384.0
-2019,4.0,Spring,Switzerland and Liechtenstein,3,Eisacktal,841.0
-2019,4.0,Spring,Switzerland and Liechtenstein,4,Pustertal,3586.0
-2019,4.0,Spring,Switzerland and Liechtenstein,5,Salten-Schlern,1449.0
-2019,4.0,Spring,Switzerland and Liechtenstein,6,Uberetsch-Unterland,2718.0
-2019,4.0,Spring,Switzerland and Liechtenstein,7,Vinschgau,3616.0
-2019,4.0,Spring,Switzerland and Liechtenstein,8,Wipptal,735.0
-2019,5.0,Spring,Austria,1,Bozen,3128.0
-2019,5.0,Spring,Austria,2,Burggrafenamt,14296.0
-2019,5.0,Spring,Austria,3,Eisacktal,2139.0
-2019,5.0,Spring,Austria,4,Pustertal,6642.0
-2019,5.0,Spring,Austria,5,Salten-Schlern,3459.0
-2019,5.0,Spring,Austria,6,Uberetsch-Unterland,4917.0
-2019,5.0,Spring,Austria,7,Vinschgau,1446.0
-2019,5.0,Spring,Austria,8,Wipptal,1129.0
-2019,5.0,Spring,Benelux countries,1,Bozen,505.0
-2019,5.0,Spring,Benelux countries,2,Burggrafenamt,2282.0
-2019,5.0,Spring,Benelux countries,3,Eisacktal,459.0
-2019,5.0,Spring,Benelux countries,4,Pustertal,1855.0
-2019,5.0,Spring,Benelux countries,5,Salten-Schlern,978.0
-2019,5.0,Spring,Benelux countries,6,Uberetsch-Unterland,685.0
-2019,5.0,Spring,Benelux countries,7,Vinschgau,680.0
-2019,5.0,Spring,Benelux countries,8,Wipptal,509.0
-2019,5.0,Spring,Germany,1,Bozen,8656.0
-2019,5.0,Spring,Germany,2,Burggrafenamt,98003.0
-2019,5.0,Spring,Germany,3,Eisacktal,15373.0
-2019,5.0,Spring,Germany,4,Pustertal,38556.0
-2019,5.0,Spring,Germany,5,Salten-Schlern,23236.0
-2019,5.0,Spring,Germany,6,Uberetsch-Unterland,21617.0
-2019,5.0,Spring,Germany,7,Vinschgau,11474.0
-2019,5.0,Spring,Germany,8,Wipptal,8932.0
-2019,5.0,Spring,Italy,1,Bozen,8494.0
-2019,5.0,Spring,Italy,2,Burggrafenamt,13156.0
-2019,5.0,Spring,Italy,3,Eisacktal,5173.0
-2019,5.0,Spring,Italy,4,Pustertal,23037.0
-2019,5.0,Spring,Italy,5,Salten-Schlern,7749.0
-2019,5.0,Spring,Italy,6,Uberetsch-Unterland,4467.0
-2019,5.0,Spring,Italy,7,Vinschgau,2251.0
-2019,5.0,Spring,Italy,8,Wipptal,3779.0
-2019,5.0,Spring,Other countries,1,Bozen,5403.0
-2019,5.0,Spring,Other countries,2,Burggrafenamt,5894.0
-2019,5.0,Spring,Other countries,3,Eisacktal,2558.0
-2019,5.0,Spring,Other countries,4,Pustertal,7910.0
-2019,5.0,Spring,Other countries,5,Salten-Schlern,4559.0
-2019,5.0,Spring,Other countries,6,Uberetsch-Unterland,2026.0
-2019,5.0,Spring,Other countries,7,Vinschgau,764.0
-2019,5.0,Spring,Other countries,8,Wipptal,1270.0
-2019,5.0,Spring,Switzerland and Liechtenstein,1,Bozen,1208.0
-2019,5.0,Spring,Switzerland and Liechtenstein,2,Burggrafenamt,21800.0
-2019,5.0,Spring,Switzerland and Liechtenstein,3,Eisacktal,1097.0
-2019,5.0,Spring,Switzerland and Liechtenstein,4,Pustertal,4569.0
-2019,5.0,Spring,Switzerland and Liechtenstein,5,Salten-Schlern,2436.0
-2019,5.0,Spring,Switzerland and Liechtenstein,6,Uberetsch-Unterland,2989.0
-2019,5.0,Spring,Switzerland and Liechtenstein,7,Vinschgau,3737.0
-2019,5.0,Spring,Switzerland and Liechtenstein,8,Wipptal,579.0
-2019,6.0,Summer,Austria,1,Bozen,2217.0
-2019,6.0,Summer,Austria,2,Burggrafenamt,12033.0
-2019,6.0,Summer,Austria,3,Eisacktal,2300.0
-2019,6.0,Summer,Austria,4,Pustertal,11326.0
-2019,6.0,Summer,Austria,5,Salten-Schlern,5307.0
-2019,6.0,Summer,Austria,6,Uberetsch-Unterland,4215.0
-2019,6.0,Summer,Austria,7,Vinschgau,2000.0
-2019,6.0,Summer,Austria,8,Wipptal,1270.0
-2019,6.0,Summer,Benelux countries,1,Bozen,818.0
-2019,6.0,Summer,Benelux countries,2,Burggrafenamt,4997.0
-2019,6.0,Summer,Benelux countries,3,Eisacktal,1074.0
-2019,6.0,Summer,Benelux countries,4,Pustertal,6877.0
-2019,6.0,Summer,Benelux countries,5,Salten-Schlern,3590.0
-2019,6.0,Summer,Benelux countries,6,Uberetsch-Unterland,1473.0
-2019,6.0,Summer,Benelux countries,7,Vinschgau,2552.0
-2019,6.0,Summer,Benelux countries,8,Wipptal,1021.0
-2019,6.0,Summer,Germany,1,Bozen,10719.0
-2019,6.0,Summer,Germany,2,Burggrafenamt,148373.0
-2019,6.0,Summer,Germany,3,Eisacktal,28073.0
-2019,6.0,Summer,Germany,4,Pustertal,98820.0
-2019,6.0,Summer,Germany,5,Salten-Schlern,61211.0
-2019,6.0,Summer,Germany,6,Uberetsch-Unterland,32913.0
-2019,6.0,Summer,Germany,7,Vinschgau,24062.0
-2019,6.0,Summer,Germany,8,Wipptal,19225.0
-2019,6.0,Summer,Italy,1,Bozen,6801.0
-2019,6.0,Summer,Italy,2,Burggrafenamt,17989.0
-2019,6.0,Summer,Italy,3,Eisacktal,6347.0
-2019,6.0,Summer,Italy,4,Pustertal,81960.0
-2019,6.0,Summer,Italy,5,Salten-Schlern,33517.0
-2019,6.0,Summer,Italy,6,Uberetsch-Unterland,4550.0
-2019,6.0,Summer,Italy,7,Vinschgau,6045.0
-2019,6.0,Summer,Italy,8,Wipptal,6542.0
-2019,6.0,Summer,Other countries,1,Bozen,8390.0
-2019,6.0,Summer,Other countries,2,Burggrafenamt,9506.0
-2019,6.0,Summer,Other countries,3,Eisacktal,4023.0
-2019,6.0,Summer,Other countries,4,Pustertal,27437.0
-2019,6.0,Summer,Other countries,5,Salten-Schlern,18965.0
-2019,6.0,Summer,Other countries,6,Uberetsch-Unterland,2744.0
-2019,6.0,Summer,Other countries,7,Vinschgau,2700.0
-2019,6.0,Summer,Other countries,8,Wipptal,2181.0
-2019,6.0,Summer,Switzerland and Liechtenstein,1,Bozen,1428.0
-2019,6.0,Summer,Switzerland and Liechtenstein,2,Burggrafenamt,17978.0
-2019,6.0,Summer,Switzerland and Liechtenstein,3,Eisacktal,1295.0
-2019,6.0,Summer,Switzerland and Liechtenstein,4,Pustertal,7533.0
-2019,6.0,Summer,Switzerland and Liechtenstein,5,Salten-Schlern,5011.0
-2019,6.0,Summer,Switzerland and Liechtenstein,6,Uberetsch-Unterland,2606.0
-2019,6.0,Summer,Switzerland and Liechtenstein,7,Vinschgau,4194.0
-2019,6.0,Summer,Switzerland and Liechtenstein,8,Wipptal,937.0
-2019,7.0,Summer,Austria,1,Bozen,2168.0
-2019,7.0,Summer,Austria,2,Burggrafenamt,11942.0
-2019,7.0,Summer,Austria,3,Eisacktal,2414.0
-2019,7.0,Summer,Austria,4,Pustertal,11878.0
-2019,7.0,Summer,Austria,5,Salten-Schlern,5261.0
-2019,7.0,Summer,Austria,6,Uberetsch-Unterland,4138.0
-2019,7.0,Summer,Austria,7,Vinschgau,3148.0
-2019,7.0,Summer,Austria,8,Wipptal,1522.0
-2019,7.0,Summer,Benelux countries,1,Bozen,1942.0
-2019,7.0,Summer,Benelux countries,2,Burggrafenamt,11742.0
-2019,7.0,Summer,Benelux countries,3,Eisacktal,3068.0
-2019,7.0,Summer,Benelux countries,4,Pustertal,15194.0
-2019,7.0,Summer,Benelux countries,5,Salten-Schlern,6945.0
-2019,7.0,Summer,Benelux countries,6,Uberetsch-Unterland,3331.0
-2019,7.0,Summer,Benelux countries,7,Vinschgau,4821.0
-2019,7.0,Summer,Benelux countries,8,Wipptal,3192.0
-2019,7.0,Summer,Germany,1,Bozen,11158.0
-2019,7.0,Summer,Germany,2,Burggrafenamt,139478.0
-2019,7.0,Summer,Germany,3,Eisacktal,26068.0
-2019,7.0,Summer,Germany,4,Pustertal,94507.0
-2019,7.0,Summer,Germany,5,Salten-Schlern,56044.0
-2019,7.0,Summer,Germany,6,Uberetsch-Unterland,28577.0
-2019,7.0,Summer,Germany,7,Vinschgau,27929.0
-2019,7.0,Summer,Germany,8,Wipptal,21083.0
-2019,7.0,Summer,Italy,1,Bozen,7630.0
-2019,7.0,Summer,Italy,2,Burggrafenamt,29398.0
-2019,7.0,Summer,Italy,3,Eisacktal,15590.0
-2019,7.0,Summer,Italy,4,Pustertal,180057.0
-2019,7.0,Summer,Italy,5,Salten-Schlern,65804.0
-2019,7.0,Summer,Italy,6,Uberetsch-Unterland,7001.0
-2019,7.0,Summer,Italy,7,Vinschgau,14377.0
-2019,7.0,Summer,Italy,8,Wipptal,13630.0
-2019,7.0,Summer,Other countries,1,Bozen,10470.0
-2019,7.0,Summer,Other countries,2,Burggrafenamt,14173.0
-2019,7.0,Summer,Other countries,3,Eisacktal,6451.0
-2019,7.0,Summer,Other countries,4,Pustertal,42711.0
-2019,7.0,Summer,Other countries,5,Salten-Schlern,26343.0
-2019,7.0,Summer,Other countries,6,Uberetsch-Unterland,4609.0
-2019,7.0,Summer,Other countries,7,Vinschgau,4148.0
-2019,7.0,Summer,Other countries,8,Wipptal,3690.0
-2019,7.0,Summer,Switzerland and Liechtenstein,1,Bozen,1638.0
-2019,7.0,Summer,Switzerland and Liechtenstein,2,Burggrafenamt,22050.0
-2019,7.0,Summer,Switzerland and Liechtenstein,3,Eisacktal,1805.0
-2019,7.0,Summer,Switzerland and Liechtenstein,4,Pustertal,11621.0
-2019,7.0,Summer,Switzerland and Liechtenstein,5,Salten-Schlern,6419.0
-2019,7.0,Summer,Switzerland and Liechtenstein,6,Uberetsch-Unterland,3706.0
-2019,7.0,Summer,Switzerland and Liechtenstein,7,Vinschgau,5498.0
-2019,7.0,Summer,Switzerland and Liechtenstein,8,Wipptal,1068.0
-2019,8.0,Summer,Austria,1,Bozen,2798.0
-2019,8.0,Summer,Austria,2,Burggrafenamt,13748.0
-2019,8.0,Summer,Austria,3,Eisacktal,2130.0
-2019,8.0,Summer,Austria,4,Pustertal,9741.0
-2019,8.0,Summer,Austria,5,Salten-Schlern,5044.0
-2019,8.0,Summer,Austria,6,Uberetsch-Unterland,4942.0
-2019,8.0,Summer,Austria,7,Vinschgau,3239.0
-2019,8.0,Summer,Austria,8,Wipptal,1414.0
-2019,8.0,Summer,Benelux countries,1,Bozen,1428.0
-2019,8.0,Summer,Benelux countries,2,Burggrafenamt,8967.0
-2019,8.0,Summer,Benelux countries,3,Eisacktal,1802.0
-2019,8.0,Summer,Benelux countries,4,Pustertal,7706.0
-2019,8.0,Summer,Benelux countries,5,Salten-Schlern,4453.0
-2019,8.0,Summer,Benelux countries,6,Uberetsch-Unterland,2102.0
-2019,8.0,Summer,Benelux countries,7,Vinschgau,3216.0
-2019,8.0,Summer,Benelux countries,8,Wipptal,1653.0
-2019,8.0,Summer,Germany,1,Bozen,12874.0
-2019,8.0,Summer,Germany,2,Burggrafenamt,160282.0
-2019,8.0,Summer,Germany,3,Eisacktal,24080.0
-2019,8.0,Summer,Germany,4,Pustertal,78686.0
-2019,8.0,Summer,Germany,5,Salten-Schlern,51787.0
-2019,8.0,Summer,Germany,6,Uberetsch-Unterland,36196.0
-2019,8.0,Summer,Germany,7,Vinschgau,28828.0
-2019,8.0,Summer,Germany,8,Wipptal,19333.0
-2019,8.0,Summer,Italy,1,Bozen,9061.0
-2019,8.0,Summer,Italy,2,Burggrafenamt,60690.0
-2019,8.0,Summer,Italy,3,Eisacktal,29056.0
-2019,8.0,Summer,Italy,4,Pustertal,274630.0
-2019,8.0,Summer,Italy,5,Salten-Schlern,109512.0
-2019,8.0,Summer,Italy,6,Uberetsch-Unterland,9551.0
-2019,8.0,Summer,Italy,7,Vinschgau,26681.0
-2019,8.0,Summer,Italy,8,Wipptal,23502.0
-2019,8.0,Summer,Other countries,1,Bozen,9572.0
-2019,8.0,Summer,Other countries,2,Burggrafenamt,11752.0
-2019,8.0,Summer,Other countries,3,Eisacktal,4295.0
-2019,8.0,Summer,Other countries,4,Pustertal,28226.0
-2019,8.0,Summer,Other countries,5,Salten-Schlern,15792.0
-2019,8.0,Summer,Other countries,6,Uberetsch-Unterland,3750.0
-2019,8.0,Summer,Other countries,7,Vinschgau,3336.0
-2019,8.0,Summer,Other countries,8,Wipptal,1826.0
-2019,8.0,Summer,Switzerland and Liechtenstein,1,Bozen,1404.0
-2019,8.0,Summer,Switzerland and Liechtenstein,2,Burggrafenamt,13996.0
-2019,8.0,Summer,Switzerland and Liechtenstein,3,Eisacktal,956.0
-2019,8.0,Summer,Switzerland and Liechtenstein,4,Pustertal,5856.0
-2019,8.0,Summer,Switzerland and Liechtenstein,5,Salten-Schlern,3735.0
-2019,8.0,Summer,Switzerland and Liechtenstein,6,Uberetsch-Unterland,2479.0
-2019,8.0,Summer,Switzerland and Liechtenstein,7,Vinschgau,3938.0
-2019,8.0,Summer,Switzerland and Liechtenstein,8,Wipptal,580.0
-2019,9.0,Autumn,Austria,1,Bozen,3529.0
-2019,9.0,Autumn,Austria,2,Burggrafenamt,14001.0
-2019,9.0,Autumn,Austria,3,Eisacktal,3068.0
-2019,9.0,Autumn,Austria,4,Pustertal,14615.0
-2019,9.0,Autumn,Austria,5,Salten-Schlern,6346.0
-2019,9.0,Autumn,Austria,6,Uberetsch-Unterland,5215.0
-2019,9.0,Autumn,Austria,7,Vinschgau,2767.0
-2019,9.0,Autumn,Austria,8,Wipptal,1668.0
-2019,9.0,Autumn,Benelux countries,1,Bozen,779.0
-2019,9.0,Autumn,Benelux countries,2,Burggrafenamt,3342.0
-2019,9.0,Autumn,Benelux countries,3,Eisacktal,826.0
-2019,9.0,Autumn,Benelux countries,4,Pustertal,5114.0
-2019,9.0,Autumn,Benelux countries,5,Salten-Schlern,2733.0
-2019,9.0,Autumn,Benelux countries,6,Uberetsch-Unterland,770.0
-2019,9.0,Autumn,Benelux countries,7,Vinschgau,1604.0
-2019,9.0,Autumn,Benelux countries,8,Wipptal,770.0
-2019,9.0,Autumn,Germany,1,Bozen,11642.0
-2019,9.0,Autumn,Germany,2,Burggrafenamt,159785.0
-2019,9.0,Autumn,Germany,3,Eisacktal,30927.0
-2019,9.0,Autumn,Germany,4,Pustertal,117191.0
-2019,9.0,Autumn,Germany,5,Salten-Schlern,69556.0
-2019,9.0,Autumn,Germany,6,Uberetsch-Unterland,34258.0
-2019,9.0,Autumn,Germany,7,Vinschgau,29063.0
-2019,9.0,Autumn,Germany,8,Wipptal,22896.0
-2019,9.0,Autumn,Italy,1,Bozen,8072.0
-2019,9.0,Autumn,Italy,2,Burggrafenamt,18206.0
-2019,9.0,Autumn,Italy,3,Eisacktal,7020.0
-2019,9.0,Autumn,Italy,4,Pustertal,78598.0
-2019,9.0,Autumn,Italy,5,Salten-Schlern,25936.0
-2019,9.0,Autumn,Italy,6,Uberetsch-Unterland,5156.0
-2019,9.0,Autumn,Italy,7,Vinschgau,6932.0
-2019,9.0,Autumn,Italy,8,Wipptal,7289.0
-2019,9.0,Autumn,Other countries,1,Bozen,8623.0
-2019,9.0,Autumn,Other countries,2,Burggrafenamt,8882.0
-2019,9.0,Autumn,Other countries,3,Eisacktal,4047.0
-2019,9.0,Autumn,Other countries,4,Pustertal,25108.0
-2019,9.0,Autumn,Other countries,5,Salten-Schlern,16758.0
-2019,9.0,Autumn,Other countries,6,Uberetsch-Unterland,2446.0
-2019,9.0,Autumn,Other countries,7,Vinschgau,2695.0
-2019,9.0,Autumn,Other countries,8,Wipptal,1753.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,1,Bozen,1658.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,2,Burggrafenamt,22809.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,3,Eisacktal,1782.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,4,Pustertal,10698.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,5,Salten-Schlern,6406.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,6,Uberetsch-Unterland,3621.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,7,Vinschgau,5114.0
-2019,9.0,Autumn,Switzerland and Liechtenstein,8,Wipptal,1044.0
-2019,10.0,Autumn,Austria,1,Bozen,3739.0
-2019,10.0,Autumn,Austria,2,Burggrafenamt,18316.0
-2019,10.0,Autumn,Austria,3,Eisacktal,4129.0
-2019,10.0,Autumn,Austria,4,Pustertal,11180.0
-2019,10.0,Autumn,Austria,5,Salten-Schlern,5778.0
-2019,10.0,Autumn,Austria,6,Uberetsch-Unterland,5144.0
-2019,10.0,Autumn,Austria,7,Vinschgau,2066.0
-2019,10.0,Autumn,Austria,8,Wipptal,1905.0
-2019,10.0,Autumn,Benelux countries,1,Bozen,245.0
-2019,10.0,Autumn,Benelux countries,2,Burggrafenamt,1105.0
-2019,10.0,Autumn,Benelux countries,3,Eisacktal,272.0
-2019,10.0,Autumn,Benelux countries,4,Pustertal,1025.0
-2019,10.0,Autumn,Benelux countries,5,Salten-Schlern,771.0
-2019,10.0,Autumn,Benelux countries,6,Uberetsch-Unterland,264.0
-2019,10.0,Autumn,Benelux countries,7,Vinschgau,371.0
-2019,10.0,Autumn,Benelux countries,8,Wipptal,204.0
-2019,10.0,Autumn,Germany,1,Bozen,9701.0
-2019,10.0,Autumn,Germany,2,Burggrafenamt,136852.0
-2019,10.0,Autumn,Germany,3,Eisacktal,27201.0
-2019,10.0,Autumn,Germany,4,Pustertal,76251.0
-2019,10.0,Autumn,Germany,5,Salten-Schlern,49862.0
-2019,10.0,Autumn,Germany,6,Uberetsch-Unterland,27359.0
-2019,10.0,Autumn,Germany,7,Vinschgau,17327.0
-2019,10.0,Autumn,Germany,8,Wipptal,16347.0
-2019,10.0,Autumn,Italy,1,Bozen,8823.0
-2019,10.0,Autumn,Italy,2,Burggrafenamt,17988.0
-2019,10.0,Autumn,Italy,3,Eisacktal,6673.0
-2019,10.0,Autumn,Italy,4,Pustertal,39776.0
-2019,10.0,Autumn,Italy,5,Salten-Schlern,15802.0
-2019,10.0,Autumn,Italy,6,Uberetsch-Unterland,4749.0
-2019,10.0,Autumn,Italy,7,Vinschgau,6372.0
-2019,10.0,Autumn,Italy,8,Wipptal,5894.0
-2019,10.0,Autumn,Other countries,1,Bozen,5293.0
-2019,10.0,Autumn,Other countries,2,Burggrafenamt,5086.0
-2019,10.0,Autumn,Other countries,3,Eisacktal,2480.0
-2019,10.0,Autumn,Other countries,4,Pustertal,9919.0
-2019,10.0,Autumn,Other countries,5,Salten-Schlern,8794.0
-2019,10.0,Autumn,Other countries,6,Uberetsch-Unterland,1540.0
-2019,10.0,Autumn,Other countries,7,Vinschgau,1734.0
-2019,10.0,Autumn,Other countries,8,Wipptal,912.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,1,Bozen,1546.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,2,Burggrafenamt,25171.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,3,Eisacktal,2050.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,4,Pustertal,9035.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,5,Salten-Schlern,5610.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,6,Uberetsch-Unterland,3324.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,7,Vinschgau,5245.0
-2019,10.0,Autumn,Switzerland and Liechtenstein,8,Wipptal,1381.0
-2019,11.0,Autumn,Austria,1,Bozen,2042.0
-2019,11.0,Autumn,Austria,2,Burggrafenamt,6895.0
-2019,11.0,Autumn,Austria,3,Eisacktal,1648.0
-2019,11.0,Autumn,Austria,4,Pustertal,3293.0
-2019,11.0,Autumn,Austria,5,Salten-Schlern,1194.0
-2019,11.0,Autumn,Austria,6,Uberetsch-Unterland,1330.0
-2019,11.0,Autumn,Austria,7,Vinschgau,507.0
-2019,11.0,Autumn,Austria,8,Wipptal,991.0
-2019,11.0,Autumn,Benelux countries,1,Bozen,134.0
-2019,11.0,Autumn,Benelux countries,2,Burggrafenamt,230.0
-2019,11.0,Autumn,Benelux countries,3,Eisacktal,55.0
-2019,11.0,Autumn,Benelux countries,4,Pustertal,184.0
-2019,11.0,Autumn,Benelux countries,5,Salten-Schlern,83.0
-2019,11.0,Autumn,Benelux countries,6,Uberetsch-Unterland,70.0
-2019,11.0,Autumn,Benelux countries,7,Vinschgau,64.0
-2019,11.0,Autumn,Benelux countries,8,Wipptal,49.0
-2019,11.0,Autumn,Germany,1,Bozen,3524.0
-2019,11.0,Autumn,Germany,2,Burggrafenamt,14812.0
-2019,11.0,Autumn,Germany,3,Eisacktal,3553.0
-2019,11.0,Autumn,Germany,4,Pustertal,8046.0
-2019,11.0,Autumn,Germany,5,Salten-Schlern,3586.0
-2019,11.0,Autumn,Germany,6,Uberetsch-Unterland,3062.0
-2019,11.0,Autumn,Germany,7,Vinschgau,2122.0
-2019,11.0,Autumn,Germany,8,Wipptal,2845.0
-2019,11.0,Autumn,Italy,1,Bozen,12334.0
-2019,11.0,Autumn,Italy,2,Burggrafenamt,37561.0
-2019,11.0,Autumn,Italy,3,Eisacktal,7119.0
-2019,11.0,Autumn,Italy,4,Pustertal,35396.0
-2019,11.0,Autumn,Italy,5,Salten-Schlern,14699.0
-2019,11.0,Autumn,Italy,6,Uberetsch-Unterland,7043.0
-2019,11.0,Autumn,Italy,7,Vinschgau,5141.0
-2019,11.0,Autumn,Italy,8,Wipptal,8244.0
-2019,11.0,Autumn,Other countries,1,Bozen,2673.0
-2019,11.0,Autumn,Other countries,2,Burggrafenamt,2739.0
-2019,11.0,Autumn,Other countries,3,Eisacktal,792.0
-2019,11.0,Autumn,Other countries,4,Pustertal,3178.0
-2019,11.0,Autumn,Other countries,5,Salten-Schlern,1277.0
-2019,11.0,Autumn,Other countries,6,Uberetsch-Unterland,861.0
-2019,11.0,Autumn,Other countries,7,Vinschgau,1296.0
-2019,11.0,Autumn,Other countries,8,Wipptal,404.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,1,Bozen,472.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,2,Burggrafenamt,5211.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,3,Eisacktal,204.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,4,Pustertal,1065.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,5,Salten-Schlern,583.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,6,Uberetsch-Unterland,296.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,7,Vinschgau,660.0
-2019,11.0,Autumn,Switzerland and Liechtenstein,8,Wipptal,403.0
-2019,12.0,Winter,Austria,1,Bozen,889.0
-2019,12.0,Winter,Austria,2,Burggrafenamt,3091.0
-2019,12.0,Winter,Austria,3,Eisacktal,1135.0
-2019,12.0,Winter,Austria,4,Pustertal,4725.0
-2019,12.0,Winter,Austria,5,Salten-Schlern,2455.0
-2019,12.0,Winter,Austria,6,Uberetsch-Unterland,584.0
-2019,12.0,Winter,Austria,7,Vinschgau,510.0
-2019,12.0,Winter,Austria,8,Wipptal,884.0
-2019,12.0,Winter,Benelux countries,1,Bozen,149.0
-2019,12.0,Winter,Benelux countries,2,Burggrafenamt,949.0
-2019,12.0,Winter,Benelux countries,3,Eisacktal,606.0
-2019,12.0,Winter,Benelux countries,4,Pustertal,4870.0
-2019,12.0,Winter,Benelux countries,5,Salten-Schlern,4899.0
-2019,12.0,Winter,Benelux countries,6,Uberetsch-Unterland,69.0
-2019,12.0,Winter,Benelux countries,7,Vinschgau,697.0
-2019,12.0,Winter,Benelux countries,8,Wipptal,464.0
-2019,12.0,Winter,Germany,1,Bozen,3058.0
-2019,12.0,Winter,Germany,2,Burggrafenamt,26103.0
-2019,12.0,Winter,Germany,3,Eisacktal,11389.0
-2019,12.0,Winter,Germany,4,Pustertal,61020.0
-2019,12.0,Winter,Germany,5,Salten-Schlern,32301.0
-2019,12.0,Winter,Germany,6,Uberetsch-Unterland,3448.0
-2019,12.0,Winter,Germany,7,Vinschgau,11883.0
-2019,12.0,Winter,Germany,8,Wipptal,11044.0
-2019,12.0,Winter,Italy,1,Bozen,23426.0
-2019,12.0,Winter,Italy,2,Burggrafenamt,62185.0
-2019,12.0,Winter,Italy,3,Eisacktal,18097.0
-2019,12.0,Winter,Italy,4,Pustertal,153748.0
-2019,12.0,Winter,Italy,5,Salten-Schlern,67756.0
-2019,12.0,Winter,Italy,6,Uberetsch-Unterland,11815.0
-2019,12.0,Winter,Italy,7,Vinschgau,6389.0
-2019,12.0,Winter,Italy,8,Wipptal,18860.0
-2019,12.0,Winter,Other countries,1,Bozen,4134.0
-2019,12.0,Winter,Other countries,2,Burggrafenamt,4897.0
-2019,12.0,Winter,Other countries,3,Eisacktal,2823.0
-2019,12.0,Winter,Other countries,4,Pustertal,33480.0
-2019,12.0,Winter,Other countries,5,Salten-Schlern,16133.0
-2019,12.0,Winter,Other countries,6,Uberetsch-Unterland,1245.0
-2019,12.0,Winter,Other countries,7,Vinschgau,2410.0
-2019,12.0,Winter,Other countries,8,Wipptal,1667.0
-2019,12.0,Winter,Switzerland and Liechtenstein,1,Bozen,459.0
-2019,12.0,Winter,Switzerland and Liechtenstein,2,Burggrafenamt,4467.0
-2019,12.0,Winter,Switzerland and Liechtenstein,3,Eisacktal,873.0
-2019,12.0,Winter,Switzerland and Liechtenstein,4,Pustertal,3726.0
-2019,12.0,Winter,Switzerland and Liechtenstein,5,Salten-Schlern,2837.0
-2019,12.0,Winter,Switzerland and Liechtenstein,6,Uberetsch-Unterland,532.0
-2019,12.0,Winter,Switzerland and Liechtenstein,7,Vinschgau,1261.0
-2019,12.0,Winter,Switzerland and Liechtenstein,8,Wipptal,612.0
+Year,Month,Season,district_c,District,Arrivals
+2019,1.0,Winter,1,Bozen,12114.0
+2019,1.0,Winter,2,Burggrafenamt,104135.0
+2019,1.0,Winter,3,Eisacktal,32769.0
+2019,1.0,Winter,4,Pustertal,223942.0
+2019,1.0,Winter,5,Salten-Schlern,119952.0
+2019,1.0,Winter,6,Uberetsch-Unterland,8871.0
+2019,1.0,Winter,7,Vinschgau,18633.0
+2019,1.0,Winter,8,Wipptal,22285.0
+2019,2.0,Winter,1,Bozen,10183.0
+2019,2.0,Winter,2,Burggrafenamt,111101.0
+2019,2.0,Winter,3,Eisacktal,39597.0
+2019,2.0,Winter,4,Pustertal,246956.0
+2019,2.0,Winter,5,Salten-Schlern,136466.0
+2019,2.0,Winter,6,Uberetsch-Unterland,6998.0
+2019,2.0,Winter,7,Vinschgau,24865.0
+2019,2.0,Winter,8,Wipptal,23416.0
+2019,3.0,Spring,1,Bozen,13074.0
+2019,3.0,Spring,2,Burggrafenamt,113317.0
+2019,3.0,Spring,3,Eisacktal,32067.0
+2019,3.0,Spring,4,Pustertal,218988.0
+2019,3.0,Spring,5,Salten-Schlern,120388.0
+2019,3.0,Spring,6,Uberetsch-Unterland,10937.0
+2019,3.0,Spring,7,Vinschgau,29484.0
+2019,3.0,Spring,8,Wipptal,23224.0
+2019,4.0,Spring,1,Bozen,16064.0
+2019,4.0,Spring,2,Burggrafenamt,130988.0
+2019,4.0,Spring,3,Eisacktal,22460.0
+2019,4.0,Spring,4,Pustertal,124862.0
+2019,4.0,Spring,5,Salten-Schlern,44926.0
+2019,4.0,Spring,6,Uberetsch-Unterland,31063.0
+2019,4.0,Spring,7,Vinschgau,25687.0
+2019,4.0,Spring,8,Wipptal,14679.0
+2019,5.0,Spring,1,Bozen,18207.0
+2019,5.0,Spring,2,Burggrafenamt,126513.0
+2019,5.0,Spring,3,Eisacktal,29260.0
+2019,5.0,Spring,4,Pustertal,120270.0
+2019,5.0,Spring,5,Salten-Schlern,49103.0
+2019,5.0,Spring,6,Uberetsch-Unterland,34368.0
+2019,5.0,Spring,7,Vinschgau,18076.0
+2019,5.0,Spring,8,Wipptal,12064.0
+2019,6.0,Summer,1,Bozen,20240.0
+2019,6.0,Summer,2,Burggrafenamt,205377.0
+2019,6.0,Summer,3,Eisacktal,47303.0
+2019,6.0,Summer,4,Pustertal,260724.0
+2019,6.0,Summer,5,Salten-Schlern,128734.0
+2019,6.0,Summer,6,Uberetsch-Unterland,44628.0
+2019,6.0,Summer,7,Vinschgau,36846.0
+2019,6.0,Summer,8,Wipptal,23293.0
+2019,7.0,Summer,1,Bozen,23147.0
+2019,7.0,Summer,2,Burggrafenamt,248439.0
+2019,7.0,Summer,3,Eisacktal,60506.0
+2019,7.0,Summer,4,Pustertal,358328.0
+2019,7.0,Summer,5,Salten-Schlern,173550.0
+2019,7.0,Summer,6,Uberetsch-Unterland,47799.0
+2019,7.0,Summer,7,Vinschgau,53125.0
+2019,7.0,Summer,8,Wipptal,32543.0
+2019,8.0,Summer,1,Bozen,24438.0
+2019,8.0,Summer,2,Burggrafenamt,288336.0
+2019,8.0,Summer,3,Eisacktal,68063.0
+2019,8.0,Summer,4,Pustertal,409711.0
+2019,8.0,Summer,5,Salten-Schlern,198226.0
+2019,8.0,Summer,6,Uberetsch-Unterland,54753.0
+2019,8.0,Summer,7,Vinschgau,61367.0
+2019,8.0,Summer,8,Wipptal,35731.0
+2019,9.0,Autumn,1,Bozen,22651.0
+2019,9.0,Autumn,2,Burggrafenamt,220361.0
+2019,9.0,Autumn,3,Eisacktal,52267.0
+2019,9.0,Autumn,4,Pustertal,278155.0
+2019,9.0,Autumn,5,Salten-Schlern,132708.0
+2019,9.0,Autumn,6,Uberetsch-Unterland,47801.0
+2019,9.0,Autumn,7,Vinschgau,43002.0
+2019,9.0,Autumn,8,Wipptal,26173.0
+2019,10.0,Autumn,1,Bozen,19356.0
+2019,10.0,Autumn,2,Burggrafenamt,177171.0
+2019,10.0,Autumn,3,Eisacktal,47026.0
+2019,10.0,Autumn,4,Pustertal,191143.0
+2019,10.0,Autumn,5,Salten-Schlern,89790.0
+2019,10.0,Autumn,6,Uberetsch-Unterland,39287.0
+2019,10.0,Autumn,7,Vinschgau,29096.0
+2019,10.0,Autumn,8,Wipptal,19742.0
+2019,11.0,Autumn,1,Bozen,14044.0
+2019,11.0,Autumn,2,Burggrafenamt,60483.0
+2019,11.0,Autumn,3,Eisacktal,14756.0
+2019,11.0,Autumn,4,Pustertal,64905.0
+2019,11.0,Autumn,5,Salten-Schlern,25850.0
+2019,11.0,Autumn,6,Uberetsch-Unterland,11835.0
+2019,11.0,Autumn,7,Vinschgau,8619.0
+2019,11.0,Autumn,8,Wipptal,9478.0
+2019,12.0,Winter,1,Bozen,21276.0
+2019,12.0,Winter,2,Burggrafenamt,142247.0
+2019,12.0,Winter,3,Eisacktal,37999.0
+2019,12.0,Winter,4,Pustertal,242412.0
+2019,12.0,Winter,5,Salten-Schlern,125269.0
+2019,12.0,Winter,6,Uberetsch-Unterland,16490.0
+2019,12.0,Winter,7,Vinschgau,20391.0
+2019,12.0,Winter,8,Wipptal,24970.0

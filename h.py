@@ -1,4 +1,5 @@
 
+from distutils.command.config import config
 import streamlit as st
 import geopandas as gp
 import pandas as pd
@@ -6,6 +7,7 @@ import plotly.express as px
 import numpy as np
 import math
 import random
+from scipy import optimize
 
 SIM_TYPE_RANDOMN = 'Random-N'
 SIM_TYPE_TOPN = 'Top-N'
@@ -152,16 +154,37 @@ def getAdvertisemnentTable(destinations):
     
     return destinationDF
 
-def getUtilities(advertisement, userChoice):
+def getK(utilities, user_choice, conv_rate):
+
+    def func(x):
+        
+        total = 0
+        
+        for key in utilities:
+            if not key == user_choice:
+                total = total + math.exp(utilities[key]*x)
+            
+        return total - (math.exp(5)/(1 - conv_rate/100) - math.exp(5))
+
+    sol = optimize.root_scalar(func, bracket=[0,10.], method='brentq')
+    x = sol.root
+
+    return x
+
+def getUtilities(advertisement, userChoice, conv_rate = -1):
 
     utilities = {userChoice: CHOICE_UTILITY}
 
     for index, d in enumerate(advertisement):
-        utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(DECAY_RATE**index) 
-        if d in utilities:
-            utilities[d] = utilities[d] + utility
-        else:
+        if not d in utilities:
+            utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(DECAY_RATE**index) 
             utilities[d] = utility 
+        
+    if not conv_rate == -1:
+        k = getK(utilities, userChoice, conv_rate)
+        for key in utilities:
+            if not key == userChoice:
+                utilities[key] = utilities[key] * k
         
     return utilities
 
@@ -175,6 +198,35 @@ def getProbabilities(utilities):
     
     for uKey in utilities:
         probabilities[uKey] = math.exp(utilities[uKey])/elSum
+        
+    return probabilities
+
+def getUtilitiesWithConvertionRate(advertisement, userChoice):
+
+    utilities = {}
+
+    for index, d in enumerate(advertisement):
+        utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(DECAY_RATE**index) 
+        utilities[d] = utility 
+        
+    return utilities
+
+def getProbabilitiesWithConvertionRate(utilities, userChoice, conv_rate):
+
+    conv_rate = conv_rate / 100
+    elSum = 0
+    probabilities = {}
+    
+    for uKey in utilities:
+        elSum = elSum + math.exp(utilities[uKey])
+    
+    for uKey in utilities:
+        probabilities[uKey] = math.exp(utilities[uKey])/elSum*conv_rate
+        
+    if userChoice in probabilities:
+        probabilities[userChoice] = probabilities[userChoice] + (1 - conv_rate)
+    else:
+        probabilities[userChoice] = 1 - conv_rate
         
     return probabilities
 
@@ -208,19 +260,26 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
     arrivalsDf = arrivals
 
     # construct a new dataframe
-    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'Nationality', 'district_c', 'District', 'Arrivals'])
-    nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
+    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals'])
+    # nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
 
     nonArrivals = arrivalsDf.copy()
-    arrivalsDf[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']] = arrivalsDf[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']].multiply(seen_rate/100).round()
+    arrivalsDf[['Arrivals']] = arrivalsDf[['Arrivals']].multiply(seen_rate/100).round()
 
-    nonArrivals[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']] = nonArrivals[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']] - arrivalsDf[['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein', 'Arrivals']]
+    nonArrivals[['Arrivals']] = nonArrivals[['Arrivals']] - arrivalsDf[['Arrivals']]
 
+    utilityMap = {}
+    for index in range(1, 9):
+        if not conv_rate == -1:
+            utilityMap[index] = getUtilities(ad, index, conv_rate)
+        else:
+            utilityMap[index] = getUtilities(ad, index)
 
 
     for i, row in arrivalsDf.iterrows():
-    
-        utilities = getUtilities(ad, row['district_c'])
+
+        utilities = utilityMap[row['district_c']]
+
         probabilities = getProbabilities(utilities)
 
         elements = list(probabilities.keys())
@@ -228,28 +287,24 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
         choices = random.choices(elements, weights=list(probabilities.values()), k=int(row['Arrivals']))
         
         start = [row['Year'], row['Month'], row['Season']]
-        
-        for nat in nationalities:
-            
-            natCount = int(row[nat])
-                
-            natChoices = choices[0:natCount]
-            choices = choices[natCount:]
+    
+        s_row = pd.Series(start + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, "Arrivals"]], index=df.columns)
+        df = df.append(s_row,ignore_index=True)
 
-            s_row = pd.Series(start + [nat] + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, nat]], index=df.columns)
+        for dist in range(1, 9):
+
+            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [choices.count(dist)], index=df.columns)
             df = df.append(s_row,ignore_index=True)
-            
-            for dist in range(1, 9):
-                df.loc[len(df.index)] = start + [nat] + [dist] + [district_code_map[dist]] + [natChoices.count(dist)]
 
-    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'Nationality', 'district_c', 'District']).sum().reset_index()
+    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).sum().reset_index()
 
     simulatedResults.to_csv('data/sim.csv', index=False)
 
     arrivals2 = pd.read_csv('data/nationality_trends.csv')
     arrivals2 = arrivals2[arrivals2['Year'] == year]
+    arrivals2 = arrivals2.groupby(by=['Year', 'Month', 'Season', 'district_c']).sum().reset_index()
 
-    arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c", "Nationality"], suffixes=("", "_sim"))
+    arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c"], suffixes=("", "_sim"))
     arrivals2 = arrivals2.drop(['Season_sim'], axis = 1)
     arrivals2['Diff'] = arrivals2['Arrivals_sim'] - arrivals2['Arrivals']
 
@@ -339,7 +394,7 @@ def generate_map_diagram_reality(overallDf, categoryDf, nationalityDf, target, i
 
 def generate_map_diagram_simulation(isDelta=False, mode='General', season='', month='January'):
 
-    target = 'Arrivals'
+    target = 'Arrivals_sim'
 
     df = st.session_state.arrivals_sim
     districts = gp.read_file('data/geo_district_df.shp')
@@ -384,14 +439,14 @@ def setupMapDiagram(df, target, color_scale):
 
     vmin = df[target].min()
     vmax = df[target].max()
+    middlePoint = 0 if target=='Diff' else (vmax-vmin)/2
 
     fig = px.choropleth(df,
                         geojson=df.geometry,
                         color=f'{target}',
                         projection='mercator',
                         color_continuous_scale=color_scale,
-                        range_color=[vmin, vmax],
-                        # title=title,
+                        color_continuous_midpoint=middlePoint,
                         labels={"Rank": "#Rank (asc)"},
                         height=600,
                         hover_name="Name",
@@ -405,8 +460,6 @@ def setupMapDiagram(df, target, color_scale):
         margin={"r": 0, "t": 0, "l": 0, "b": 0, "pad": 400},
         coloraxis_colorbar_thickness=10,
         coloraxis_colorbar_title_side='right',
-        # coloraxis_colorbar_x=0.83
-        # disable drag and zoom
         dragmode=False,
         hoverlabel=dict(
             bgcolor="white",
@@ -459,6 +512,7 @@ def generate_simulation_bar_chart(df, y='Diff', title='title'):
     fig = px.bar(df, y=y, x='District', text_auto=format,
                  title=title,
                  color_continuous_scale=['#eb8383', "#ffffff", '#5b5399'],
+                 color_continuous_midpoint=0,
                  color=y,
                  labels={
                      'arrivi_tot': 'Demand (real)', 'District': "District"},

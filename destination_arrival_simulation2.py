@@ -40,7 +40,11 @@ with st.spinner('Loading data...'):
 
 if st.session_state.mode == h.SIMULATION:
     st.sidebar.subheader('Advertisement')
-    st.sidebar.table(st.session_state.advertisement)
+    # st.sidebar.table(st.session_state.advertisement)
+    for i, row in st.session_state.advertisement.iterrows():
+        st.sidebar.text(str(i) + ". " + row["Destination"])
+    # st.sidebar.text("2. Bolzano")
+    # st.sidebar.text("3 . Salten-Schlern")
 
 st.sidebar.subheader('Simulation Setup')
 
@@ -69,14 +73,17 @@ else:
                 choicesDestinations,
                 [])
 
-seen_rate = st.sidebar.number_input('Seen Rate (%): ', min_value=0, max_value=100, 
-value=100, help="Insert A value between 0 and 100.")
+seen_rate = st.sidebar.slider('Seen Rate (%): ', 0.0, 100.0, 100.0, step=0.1)
 
-conversion_rate = st.sidebar.number_input('Conversion Rate (%): ', min_value=0, max_value=100, 
-value=37, help="Insert a value between 0 and 100.")
+is_conv_rate_considered = st.sidebar.checkbox('Consider Convertion Rate', value=False)
+
+if is_conv_rate_considered:
+    conversion_rate = st.sidebar.slider('Conversion Rate (%): ', 0.0, 100.0, 37.5, step=0.1)
+else:
+    conversion_rate = -1 
 
 def arrangeSimulation():
-    with st.spinner('Calculating Simulation Results...'):
+    with st.spinner('Computing Simulation Results...'):
         if simulation_type != h.SIM_TYPE_CUSTOM:
             h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [])
         else:
