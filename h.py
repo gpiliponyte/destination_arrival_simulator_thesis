@@ -176,13 +176,13 @@ def getK(utilities, user_choice, conv_rate):
 
     return x
 
-def getUtilities(advertisement, userChoice, conv_rate = -1):
+def getUtilities(advertisement, userChoice, decay_rate, conv_rate = -1):
 
     utilities = {userChoice: CHOICE_UTILITY}
 
     for index, d in enumerate(advertisement):
         if not d in utilities:
-            utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(DECAY_RATE**index) 
+            utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(decay_rate**index) 
             utilities[d] = utility 
         
     if not conv_rate == -1:
@@ -206,36 +206,7 @@ def getProbabilities(utilities):
         
     return probabilities
 
-def getUtilitiesWithConvertionRate(advertisement, userChoice):
-
-    utilities = {}
-
-    for index, d in enumerate(advertisement):
-        utility = similarities[str(userChoice)].loc[d]*CHOICE_UTILITY/(DECAY_RATE**index) 
-        utilities[d] = utility 
-        
-    return utilities
-
-def getProbabilitiesWithConvertionRate(utilities, userChoice, conv_rate):
-
-    conv_rate = conv_rate / 100
-    elSum = 0
-    probabilities = {}
-    
-    for uKey in utilities:
-        elSum = elSum + math.exp(utilities[uKey])
-    
-    for uKey in utilities:
-        probabilities[uKey] = math.exp(utilities[uKey])/elSum*conv_rate
-        
-    if userChoice in probabilities:
-        probabilities[userChoice] = probabilities[userChoice] + (1 - conv_rate)
-    else:
-        probabilities[userChoice] = 1 - conv_rate
-        
-    return probabilities
-
-def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect, nationality_filter):
+def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect, nationality_filter, decay_rate):
 
     # seen_rate = 0.6#conv_rate / 100
     
@@ -295,9 +266,9 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
     utilityMap = {}
     for index in range(1, 9):
         if not conv_rate == -1:
-            utilityMap[index] = getUtilities(ad, index, conv_rate)
+            utilityMap[index] = getUtilities(ad, index, decay_rate, conv_rate)
         else:
-            utilityMap[index] = getUtilities(ad, index)
+            utilityMap[index] = getUtilities(ad, index, decay_rate)
 
 
     for i, row in arrivalsDf.iterrows():

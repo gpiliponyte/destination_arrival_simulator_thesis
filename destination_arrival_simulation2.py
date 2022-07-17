@@ -61,7 +61,7 @@ simulation_year = st.sidebar.selectbox(
 # if is_nationality_considered:
 filters = [h.ALL_COUNTRIES] + h.nationalities
 nationalityFilter = st.sidebar.selectbox(
-     'Target Country',
+     'Target Country:',
      tuple(filters))
 
 # else:
@@ -84,21 +84,29 @@ else:
                 choicesDestinations,
                 [])
 
-seen_rate = st.sidebar.slider('Seen Rate (%): ', 0.0, 100.0, 100.0, step=0.1)
+is_advanced = st.sidebar.checkbox('Show Advanced Settings', value=False)
 
-is_conv_rate_considered = st.sidebar.checkbox('Consider Convertion Rate', value=False)
+if is_advanced:
+    decay_rate = st.sidebar.slider('Decay Rate: ', 1.0, 2.0, h.DECAY_RATE, step=0.05)
+    seen_rate = st.sidebar.slider('Seen Rate (%): ', 0.0, 100.0, 100.0, step=0.1)
+    is_conv_rate_considered = st.sidebar.checkbox('Consider Convertion Rate', value=False)
 
-if is_conv_rate_considered:
-    conversion_rate = st.sidebar.slider('Conversion Rate (%): ', 0.0, 100.0, 37.5, step=0.1)
+    if is_conv_rate_considered:
+        conversion_rate = st.sidebar.slider('Conversion Rate (%): ', 0.0, 100.0, 37.5, step=0.1)
+    else:
+        conversion_rate = -1 
+
 else:
-    conversion_rate = -1 
+    seen_rate = 100
+    conversion_rate = -1
+    decay_rate = h.DECAY_RATE
 
 def arrangeSimulation():
     with st.spinner('Computing Simulation Results...'):
         if simulation_type != h.SIM_TYPE_CUSTOM:
-            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [], nationalityFilter)
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [], nationalityFilter, decay_rate)
         else:
-            h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect, nationalityFilter)
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect, nationalityFilter, decay_rate)
 
 run_simulation_btn = st.sidebar.button(
     "Run", on_click=arrangeSimulation, 
