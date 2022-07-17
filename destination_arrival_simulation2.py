@@ -56,6 +56,17 @@ simulation_year = st.sidebar.selectbox(
     index=1,
     key='simulation_year')
 
+# is_nationality_considered = st.sidebar.checkbox('Setup By Campaign', value=False)
+
+# if is_nationality_considered:
+filters = [h.ALL_COUNTRIES] + h.nationalities
+nationalityFilter = st.sidebar.selectbox(
+     'Target Country',
+     tuple(filters))
+
+# else:
+#     nationalityFilter = -1
+
 simulation_type = st.sidebar.selectbox(
     'Marketing Campaign:',
     (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN, h.SIM_TYPE_CUSTOM),
@@ -85,9 +96,9 @@ else:
 def arrangeSimulation():
     with st.spinner('Computing Simulation Results...'):
         if simulation_type != h.SIM_TYPE_CUSTOM:
-            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [])
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [], nationalityFilter)
         else:
-            h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect)
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect, nationalityFilter)
 
 run_simulation_btn = st.sidebar.button(
     "Run", on_click=arrangeSimulation, 

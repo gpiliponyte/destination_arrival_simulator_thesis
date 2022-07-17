@@ -31,12 +31,17 @@ TYPE_GENERAL = "General"
 TYPE_NAT = "By Nationality"
 TYPE_ACC = "By Type of Accomodation"
 
+ALL_COUNTRIES = "All Countries"
+
 district_code_map = {1: "Bozen", 2: "Burggrafenamt", 3: "Eisacktal", 4: "Pustertal", 5: "Salten-Schlern", 6: "Uberetsch-Unterland", 7: "Vinschgau", 8: "Wipptal"}
 
 district_code_map_reverse = {"Bozen": 1, "Burggrafenamt": 2, "Eisacktal": 3, "Pustertal": 4, "Salten-Schlern": 5, "Uberetsch-Unterland": 6, "Vinschgau": 7, "Wipptal": 8}
 
 months = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
               "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12}
+
+nationalities = ['Germany', 'Italy', 'Austria', 'Benelux countries', 'Switzerland and Liechtenstein', 'Other countries']
+
 
 CHOICE_UTILITY = 5
 DECAY_RATE = 1.2
@@ -230,23 +235,40 @@ def getProbabilitiesWithConvertionRate(utilities, userChoice, conv_rate):
         
     return probabilities
 
-def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect):
+def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect, nationality_filter):
 
     # seen_rate = 0.6#conv_rate / 100
     
     # run advertisement
 
-    arrivalCounts = pd.read_csv("data/districts_ranked.csv")
-    ac = arrivalCounts[arrivalCounts['Year'] == year]
+    if nationality_filter == ALL_COUNTRIES:
+
+        arrivalCounts = pd.read_csv("data/districts_ranked.csv")
+        ac = arrivalCounts[arrivalCounts['Year'] == year]
+        
+        if type == SIM_TYPE_TOPN:
+            ad = ac['district_c'].head(n).tolist()
+        elif type == SIM_TYPE_BOTTOMN:
+            ad = ac.sort_values(by='Rank', ascending=False)['district_c'].head(n).tolist()
+        elif type == SIM_TYPE_CUSTOM:
+            ad = list(map(codeLoopup, multiselect))
+        else:
+            ad = random.sample(range(1, 9), n)
     
-    if type == SIM_TYPE_TOPN:
-        ad = ac['district_c'].head(n).tolist()
-    elif type == SIM_TYPE_BOTTOMN:
-        ad = ac.sort_values(by='Rank', ascending=False)['district_c'].head(n).tolist()
-    elif type == SIM_TYPE_CUSTOM:
-        ad = list(map(codeLoopup, multiselect))
     else:
-        ad = random.sample(range(1, 9), n)
+
+        arrivalCounts = pd.read_csv("data/yearly_arrivals_by_nat_and_dist.csv")
+        ac = arrivalCounts[arrivalCounts['Year'] == year]
+        
+        if type == SIM_TYPE_TOPN:
+            ad = ac.sort_values(by=nationality_filter, ascending=False)['district_c'].head(n).tolist()
+        elif type == SIM_TYPE_BOTTOMN:
+            ad = ac.sort_values(by=nationality_filter, ascending=True)['district_c'].head(n).tolist()
+        elif type == SIM_TYPE_CUSTOM:
+            ad = list(map(codeLoopup, multiselect))
+        else:
+            ad = random.sample(range(1, 9), n)
+
 
     getAdvertisemnentTable(ad)
 
@@ -263,8 +285,10 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
     df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals'])
     # nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
 
+    filter = 'Arrivals' if nationality_filter == ALL_COUNTRIES else nationality_filter
+
     nonArrivals = arrivalsDf.copy()
-    arrivalsDf[['Arrivals']] = arrivalsDf[['Arrivals']].multiply(seen_rate/100).round()
+    arrivalsDf[['Arrivals']] = arrivalsDf[[filter]].multiply(seen_rate/100).round()
 
     nonArrivals[['Arrivals']] = nonArrivals[['Arrivals']] - arrivalsDf[['Arrivals']]
 
