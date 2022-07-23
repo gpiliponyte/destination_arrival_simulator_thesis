@@ -61,6 +61,8 @@ def setup_state():
         st.session_state.executed_simulation = None
     if 'mode' not in st.session_state:
         st.session_state.mode = REALITY
+    if 'strategy' not in st.session_state:
+        st.session_state.strategy = None
 
 
 @st.cache(allow_output_mutation=True)
@@ -306,6 +308,7 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
     st.session_state.arrivals_sim = arrivals2
     st.session_state.executed_simulation = st.session_state.selectbox_symtype
     st.session_state.mode = SIMULATION
+    st.session_state.strategy = SIM_TYPE_SUSTAINABLE
 
 
 def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect, nationality_filter, decay_rate):
@@ -409,6 +412,7 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
     st.session_state.arrivals_sim = arrivals2
     st.session_state.executed_simulation = st.session_state.selectbox_symtype
     st.session_state.mode = SIMULATION
+    st.session_state.strategy = type
 
 
 

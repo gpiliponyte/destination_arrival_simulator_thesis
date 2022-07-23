@@ -38,13 +38,10 @@ with st.spinner('Loading data...'):
 # SETUP SIDEBAR
 #
 
-if st.session_state.mode == h.SIMULATION:
+if st.session_state.mode == h.SIMULATION and st.session_state.strategy != h.SIM_TYPE_SUSTAINABLE:
     st.sidebar.subheader('Advertisement')
-    # st.sidebar.table(st.session_state.advertisement)
     for i, row in st.session_state.advertisement.iterrows():
         st.sidebar.text(str(i) + ". " + row["Destination"])
-    # st.sidebar.text("2. Bolzano")
-    # st.sidebar.text("3 . Salten-Schlern")
 
 st.sidebar.subheader('Simulation Setup')
 
