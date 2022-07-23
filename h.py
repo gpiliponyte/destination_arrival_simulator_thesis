@@ -13,6 +13,7 @@ SIM_TYPE_RANDOMN = 'Random-N'
 SIM_TYPE_TOPN = 'Top-N'
 SIM_TYPE_BOTTOMN = 'Bottom-N'
 SIM_TYPE_CUSTOM = 'Custom'
+SIM_TYPE_SUSTAINABLE = 'Sustainable-N'
 
 REALITY = 'reality'
 SIMULATION = 'simulation'
@@ -206,6 +207,107 @@ def getProbabilities(utilities):
         
     return probabilities
 
+def getSustainableForDistrict(district, k, dataframe, column):
+    similaritiesToDistrict = similarities[str(district)].sort_values(ascending=False)
+    sustainableItems = dataframe.sort_values(by=column, ascending=True)['district_c'].head(4).tolist()
+
+    sustainableAd = []
+    for index, row in similaritiesToDistrict.items():
+        if index != district:
+            if index in sustainableItems:
+                sustainableAd.append(index)
+            if len(sustainableAd) == k:
+                return sustainableAd
+    return sustainableAd
+
+
+
+def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rate):
+    
+    adDictionary = {}
+    utilitiesDictionary = {}
+    probabilitiesDictionary = {}
+
+
+    if nationality_filter == ALL_COUNTRIES:
+
+        arrivalCounts = pd.read_csv("data/districts_ranked.csv")
+        column = 'Arrivals'
+    
+    else:
+
+        arrivalCounts = pd.read_csv("data/yearly_arrivals_by_nat_and_dist.csv")
+        column = 'Arrivals' # nationality_filter
+
+    ac = arrivalCounts[arrivalCounts['Year'] == year]
+
+    for i in range(1, 9):
+        adDictionary[i] = getSustainableForDistrict(i, k, ac, column)
+        if not conv_rate == -1:
+            utilitiesDictionary[i] = getUtilities(adDictionary[i], i, decay_rate, conv_rate)
+        else:
+            utilitiesDictionary[i] = getUtilities(adDictionary[i], i, decay_rate)
+
+        probabilitiesDictionary[i] = getProbabilities(utilitiesDictionary[i])
+
+    st.session_state.advertisement = pd.DataFrame({})# getAdvertisemnentTable(ad)
+
+
+    # setup stuff
+    arrivals = pd.read_csv('data/nationality_long.csv')
+    arrivals = arrivals[arrivals['Year'] == year]
+
+    arrivalsDf = arrivals
+
+    # construct a new dataframe
+    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals'])
+    # nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
+
+    filter = 'Arrivals' if nationality_filter == ALL_COUNTRIES else nationality_filter
+
+    nonArrivals = arrivalsDf.copy()
+    arrivalsDf[['Arrivals']] = arrivalsDf[[filter]].multiply(seen_rate/100).round()
+
+    nonArrivals[['Arrivals']] = nonArrivals[['Arrivals']] - arrivalsDf[['Arrivals']]
+
+
+    for i, row in arrivalsDf.iterrows():
+
+        probabilities = probabilitiesDictionary[row['district_c']]
+
+        elements = list(probabilities.keys())
+        
+        choices = random.choices(elements, weights=list(probabilities.values()), k=int(row['Arrivals']))
+        
+        start = [row['Year'], row['Month'], row['Season']]
+    
+        s_row = pd.Series(start + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, "Arrivals"]], index=df.columns)
+        df = df.append(s_row,ignore_index=True)
+
+        for dist in range(1, 9):
+
+            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [choices.count(dist)], index=df.columns)
+            df = df.append(s_row,ignore_index=True)
+
+    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).sum().reset_index()
+
+    simulatedResults.to_csv('data/sim.csv', index=False)
+
+    arrivals2 = pd.read_csv('data/nationality_trends.csv')
+    arrivals2 = arrivals2[arrivals2['Year'] == year]
+    arrivals2 = arrivals2.groupby(by=['Year', 'Month', 'Season', 'district_c']).sum().reset_index()
+
+    arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c"], suffixes=("", "_sim"))
+    arrivals2 = arrivals2.drop(['Season_sim'], axis = 1)
+    arrivals2['Diff'] = arrivals2['Arrivals_sim'] - arrivals2['Arrivals']
+
+    st.session_state['comparable'] = True
+    st.session_state.nclick += 1
+    st.session_state.arrivals_sim = arrivals2
+    st.session_state.executed_simulation = st.session_state.selectbox_symtype
+    st.session_state.mode = SIMULATION
+
+
 def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect, nationality_filter, decay_rate):
 
     # seen_rate = 0.6#conv_rate / 100
@@ -254,7 +356,6 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
 
     # construct a new dataframe
     df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals'])
-    # nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
 
     filter = 'Arrivals' if nationality_filter == ALL_COUNTRIES else nationality_filter
 

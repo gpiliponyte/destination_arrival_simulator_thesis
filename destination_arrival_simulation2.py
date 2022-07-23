@@ -69,16 +69,24 @@ nationalityFilter = st.sidebar.selectbox(
 
 simulation_type = st.sidebar.selectbox(
     'Marketing Campaign:',
-    (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN, h.SIM_TYPE_CUSTOM),
+    (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN, h.SIM_TYPE_SUSTAINABLE, h.SIM_TYPE_CUSTOM),
     key='selectbox_symtype')
 
-if simulation_type != h.SIM_TYPE_CUSTOM:
+if simulation_type != h.SIM_TYPE_CUSTOM and simulation_type != h.SIM_TYPE_SUSTAINABLE:
     option_N = st.sidebar.selectbox(
     'Size of N:',
     (1, 2, 3, 4, 5, 6, 7, 8),
     index=2,
     key='selectbox_N_size')
-else:
+
+if simulation_type == h.SIM_TYPE_SUSTAINABLE:
+    option_N = st.sidebar.selectbox(
+    'Size of N:',
+    (1, 2, 3),
+    index=1,
+    key='selectbox_N_size')
+
+if simulation_type == h.SIM_TYPE_CUSTOM:
     multiselect = st.sidebar.multiselect(
                 'Destinations Selected (by Display Order)',
                 choicesDestinations,
@@ -103,7 +111,9 @@ else:
 
 def arrangeSimulation():
     with st.spinner('Computing Simulation Results...'):
-        if simulation_type != h.SIM_TYPE_CUSTOM:
+        if simulation_type == h.SIM_TYPE_SUSTAINABLE:
+            h.run_sustainable(simulation_year, conversion_rate, option_N, seen_rate, nationalityFilter, decay_rate)
+        elif simulation_type != h.SIM_TYPE_CUSTOM:
             h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [], nationalityFilter, decay_rate)
         else:
             h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect, nationalityFilter, decay_rate)
