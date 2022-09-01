@@ -110,8 +110,10 @@ def arrangeSimulation():
     with st.spinner('Computing Simulation Results...'):
         if simulation_type == h.SIM_TYPE_SUSTAINABLE:
             h.run_sustainable(simulation_year, conversion_rate, option_N, seen_rate, nationalityFilter, decay_rate)
+        elif simulation_type == h.SIM_TYPE_RANDOMN:
+            h.run_random(simulation_year, option_N, conversion_rate, seen_rate, nationalityFilter, decay_rate)
         elif simulation_type != h.SIM_TYPE_CUSTOM:
-            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [], nationalityFilter, decay_rate)
+            h.on_run_simulation_btn_click(simulation_year, simulation_type, option_N, conversion_rate, seen_rate, [], nationalityFilter, decay_rate) 
         else:
             h.on_run_simulation_btn_click(simulation_year, simulation_type, 0, conversion_rate, seen_rate, multiselect, nationalityFilter, decay_rate)
 
@@ -411,13 +413,19 @@ if st.session_state.mode == h.SIMULATION:
 
         isDelta = True if sim_mode == h.SIM_DELTA else False
 
+        metric_map_selectbox = st.selectbox(
+            'Select Metric:',
+            (h.METRIC_ARRIVALS, h.METRIC_AVG_PRESENT,
+             h.METRIC_AVG_PRESENT_TO_BEDS, h.METRIC_AVG_PRESENT_TO_POP),
+            key='selectbox_symtype')
+
         mode_map_selectbox_sim = st.selectbox(
             'Select Time Granularity',
             ("All", "Month", "Seasons"),
             key='selectbox_symtype')
 
         fig_map_simulation = h.generate_map_diagram_simulation(
-            isDelta, mode=mode_map_selectbox_sim)
+            isDelta, mode=mode_map_selectbox_sim, metric=metric_map_selectbox)
 
         if mode_map_selectbox_sim == "Seasons":
             with col1SimMap:
@@ -428,7 +436,7 @@ if st.session_state.mode == h.SIMULATION:
 
             if season_map_selectbox_sim:
                 fig_map_simulation = h.generate_map_diagram_simulation(
-                    isDelta, mode=mode_map_selectbox_sim, season=season_map_selectbox_sim)
+                    isDelta, mode=mode_map_selectbox_sim, season=season_map_selectbox_sim, metric=metric_map_selectbox)
 
         if mode_map_selectbox_sim == "Month":
             with col1SimMap:
@@ -440,7 +448,7 @@ if st.session_state.mode == h.SIMULATION:
 
             if month_map_selectbox_sim:
                 fig_map_simulation = h.generate_map_diagram_simulation(
-                    isDelta, mode=mode_map_selectbox_sim, month=month_map_selectbox_sim)
+                    isDelta, mode=mode_map_selectbox_sim, month=month_map_selectbox_sim, metric=metric_map_selectbox)
 
             # Update remaining layout properties
             fig_map_simulation.update_layout(

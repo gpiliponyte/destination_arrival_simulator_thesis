@@ -8,6 +8,7 @@ import numpy as np
 import math
 import random
 from scipy import optimize
+import itertools
 
 SIM_TYPE_RANDOMN = 'Random-N'
 SIM_TYPE_TOPN = 'Top-N'
@@ -47,6 +48,8 @@ nationalities = ['Germany', 'Italy', 'Austria', 'Benelux countries', 'Switzerlan
 CHOICE_UTILITY = 5
 DECAY_RATE = 1.2
 similarities = pd.read_csv('data/similarities_indexed.csv', index_col=0)
+dataForPresences = pd.read_csv('data/presences_sim.csv')
+
 arrivals2 = pd.DataFrame({})
 
 destinationDF = pd.DataFrame({})
@@ -79,21 +82,6 @@ def load_data():  # LOAD SIMULATION AND REAL DATA ON LOAD
         category, on='district_c', how="inner", suffixes=('', '_y'))
     overall = districts.merge(overall, on='district_c',
                               how="inner", suffixes=('', '_y'))
-
-    overall['sim_arrivals'] = np.random.permutation(overall["Arrivals"].values)
-    overall['sim_present'] = np.random.permutation(overall['Present'].values)
-    overall['diff'] = overall['Arrivals'] - overall['sim_arrivals']
-
-    category['sim_arrivals'] = np.random.permutation(
-        category["Arrivals"].values)
-    category['sim_present'] = np.random.permutation(category['Present'].values)
-    category['diff'] = category['Arrivals'] - category['sim_arrivals']
-
-    nationality['sim_arrivals'] = np.random.permutation(
-        nationality["Arrivals"].values)
-    nationality['sim_present'] = np.random.permutation(
-        nationality['Present'].values)
-    nationality['diff'] = nationality['Arrivals'] - nationality['sim_arrivals']
 
     nationalityDictionary = {
         '2020': nationality[nationality['Year'] == 2020],
@@ -222,6 +210,12 @@ def getSustainableForDistrict(district, k, dataframe, column):
                 return sustainableAd
     return sustainableAd
 
+def getMeanAndStandardDeviation(year, month, district_c):
+    filteredDf = dataForPresences[(dataForPresences["Year"] == year) & (dataForPresences["Month"] == month) & (dataForPresences["district_c"] == district_c ) ]
+    filteredDf["AverageStay"] = filteredDf["Present"] / filteredDf["Arrivals"]
+    filteredDf.replace([np.inf, -np.inf], 0, inplace=True)
+    return [filteredDf["AverageStay"].mean(), filteredDf["AverageStay"].std()]
+
 
 
 def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rate):
@@ -239,7 +233,7 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
     else:
 
         arrivalCounts = pd.read_csv("data/yearly_arrivals_by_nat_and_dist.csv")
-        column = 'Arrivals' # nationality_filter
+        column = nationality_filter
 
     ac = arrivalCounts[arrivalCounts['Year'] == year]
 
@@ -252,9 +246,6 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
 
         probabilitiesDictionary[i] = getProbabilities(utilitiesDictionary[i])
 
-    st.session_state.advertisement = pd.DataFrame({})# getAdvertisemnentTable(ad)
-
-
     # setup stuff
     arrivals = pd.read_csv('data/nationality_long.csv')
     arrivals = arrivals[arrivals['Year'] == year]
@@ -262,15 +253,18 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
     arrivalsDf = arrivals
 
     # construct a new dataframe
-    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals'])
-    # nationalities = ['Austria', 'Benelux countries', 'Germany', 'Italy', 'Other countries', 'Switzerland and Liechtenstein']
-
+    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals', 'Present'])
+    
     filter = 'Arrivals' if nationality_filter == ALL_COUNTRIES else nationality_filter
 
     nonArrivals = arrivalsDf.copy()
-    arrivalsDf[['Arrivals']] = arrivalsDf[[filter]].multiply(seen_rate/100).round()
+    arrivalsDf['Arrivals'] = arrivalsDf[filter].multiply(seen_rate/100).round()
 
-    nonArrivals[['Arrivals']] = nonArrivals[['Arrivals']] - arrivalsDf[['Arrivals']]
+    nonArrivals['Arrivals'] = nonArrivals['Arrivals'] - arrivalsDf['Arrivals']
+    
+    nonArrivals['Ratio'] = arrivalsDf[filter].multiply((100-seen_rate)/100).round() / arrivalsDf['Arrivals']
+    
+    nonArrivals['Present'] = nonArrivals['Ratio'] * arrivalsDf['Present']
 
 
     for i, row in arrivalsDf.iterrows():
@@ -283,17 +277,29 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
         
         start = [row['Year'], row['Month'], row['Season']]
     
-        s_row = pd.Series(start + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, "Arrivals"]], index=df.columns)
+        s_row = pd.Series(start + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, "Arrivals"]] + [nonArrivals.loc[i, "Present"]], index=df.columns)
         df = df.append(s_row,ignore_index=True)
+        
+        results = getMeanAndStandardDeviation(row['Year'], row['Month'], row['district_c'])
+        mean = results[0]
+        std = results[1]
+        
+        simulatedPresences = np.random.normal(mean, std, int(row['Arrivals']))
 
         for dist in range(1, 9):
 
-            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [choices.count(dist)], index=df.columns)
+            arrivalsToDistrict = choices.count(dist)
+            
+            presenceArray = simulatedPresences[:arrivalsToDistrict]
+            simulatedPresences = simulatedPresences[arrivalsToDistrict:]
+            
+            sumOfPresences = np.sum(presenceArray)
+            
+            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [arrivalsToDistrict] + [sumOfPresences], index=df.columns)
+            # s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [arrivalsToDistrict] + [arrivalsToDistrict*mean], index=df.columns)
             df = df.append(s_row,ignore_index=True)
 
-    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).sum().reset_index()
-
-    simulatedResults.to_csv('data/sim.csv', index=False)
+    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).agg({'Arrivals': 'sum', 'Present': 'sum'}).reset_index()
 
     arrivals2 = pd.read_csv('data/nationality_trends.csv')
     arrivals2 = arrivals2[arrivals2['Year'] == year]
@@ -302,6 +308,8 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
     arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c"], suffixes=("", "_sim"))
     arrivals2 = arrivals2.drop(['Season_sim'], axis = 1)
     arrivals2['Diff'] = arrivals2['Arrivals_sim'] - arrivals2['Arrivals']
+    
+    arrivals2['sim_present'] = arrivals2['Present_sim']
 
     st.session_state['comparable'] = True
     st.session_state.nclick += 1
@@ -310,12 +318,122 @@ def run_sustainable(year, conv_rate, k, seen_rate, nationality_filter, decay_rat
     st.session_state.mode = SIMULATION
     st.session_state.strategy = SIM_TYPE_SUSTAINABLE
 
+def run_random(year, n, conv_rate, seen_rate, nationality_filter, decay_rate):
+
+    advertisementMap = {}
+    utilityMap = {}
+    probabilityMap = {}
+
+    items = list(range(1, 9))
+
+    for index, adCombination in enumerate(itertools.combinations(items, n)):
+        ad = list(adCombination)
+        advertisementMap[index] = ad
+        
+    for i in range(1, 9):
+        utilityMap[i] = {}
+        probabilityMap[i] = {}
+        for key in advertisementMap.keys():
+            if not conv_rate == -1:
+                utilities = getUtilities(advertisementMap[key], i, decay_rate, conv_rate)
+            else:
+                utilities = getUtilities(advertisementMap[key], i, decay_rate)
+            utilityMap[i][key] = utilities
+            probabilities = getProbabilities(utilities)
+            probabilityMap[i][key] = probabilities 
+
+
+    # setup stuff
+    arrivals = pd.read_csv('data/nationality_long.csv')
+    arrivals = arrivals[arrivals['Year'] == year]
+
+    arrivalsDf = arrivals
+
+    # construct a new dataframe
+    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals', 'Present'])
+
+    filter = 'Arrivals' if nationality_filter == ALL_COUNTRIES else nationality_filter
+
+    nonArrivals = arrivalsDf.copy()
+    arrivalsDf['Arrivals'] = arrivalsDf[filter].multiply(seen_rate/100).round()
+
+    nonArrivals['Arrivals'] = nonArrivals['Arrivals'] - arrivalsDf['Arrivals']
+    
+    nonArrivals['Ratio'] = arrivalsDf[filter].multiply((100-seen_rate)/100).round() / arrivalsDf['Arrivals']
+    
+    nonArrivals['Present'] = nonArrivals['Ratio'] * arrivalsDf['Present']
+
+
+    for i, row in arrivalsDf.iterrows():
+
+        choices = []
+
+        adNumberChoices = random.choices(list(utilityMap[row['district_c']].keys()), k = int(row['Arrivals']) )
+        
+        for x in range(int(row['Arrivals'])):
+
+            adNumber = adNumberChoices[x]#random.choice(list(utilityMap[row['district_c']].keys()))
+            probabilities = probabilityMap[row['district_c']][adNumber]
+            elements = list(probabilities.keys())
+
+            choice = random.choices(elements, weights=list(probabilities.values()), k=1)
+
+            choices.append(choice[0])
+        
+        start = [row['Year'], row['Month'], row['Season']]
+
+        a1 = [nonArrivals.loc[i, 'district_c']]
+        a2 = [district_code_map[nonArrivals.loc[i, 'district_c']]]
+        a3 = [nonArrivals.loc[i, "Arrivals"]]
+    
+        s_row = pd.Series(start + a1 + a2 + a3 + [nonArrivals.loc[i, 'Present']], index=df.columns)
+        df = df.append(s_row,ignore_index=True)
+        
+        results = getMeanAndStandardDeviation(row['Year'], row['Month'], row['district_c'])
+        mean = results[0]
+        std = results[1]
+        
+        simulatedPresences = np.random.normal(mean, std, int(row['Arrivals']))
+
+        for dist in range(1, 9):
+            
+            arrivalsToDistrict = choices.count(dist)
+            
+            presenceArray = simulatedPresences[:arrivalsToDistrict]
+            simulatedPresences = simulatedPresences[arrivalsToDistrict:]
+            
+            sumOfPresences = np.sum(presenceArray)
+
+            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [arrivalsToDistrict] + [sumOfPresences], index=df.columns)
+            # s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [arrivalsToDistrict] + [arrivalsToDistrict*mean], index=df.columns)
+            df = df.append(s_row,ignore_index=True)
+
+    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).agg({'Arrivals': 'sum', 'Present': 'sum'}).reset_index()
+   
+    # print(df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).sum())
+
+    # simulatedResults.to_csv('data/sim.csv', index=False)
+
+    arrivals2 = pd.read_csv('data/nationality_trends.csv')
+    arrivals2 = arrivals2[arrivals2['Year'] == year] 
+    arrivals2 = arrivals2.groupby(by=['Year', 'Month', 'Season', 'district_c']).sum().reset_index()
+
+    arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c"], suffixes=("", "_sim"))
+    arrivals2 = arrivals2.drop(['Season_sim'], axis = 1)
+    arrivals2['Diff'] = arrivals2['Arrivals_sim'] - arrivals2['Arrivals']
+    
+    arrivals2['sim_present'] = arrivals2['Present_sim']
+
+
+    st.session_state['comparable'] = True
+    st.session_state.nclick += 1
+    st.session_state.arrivals_sim = arrivals2
+    st.session_state.executed_simulation = st.session_state.selectbox_symtype
+    st.session_state.mode = SIMULATION
+    st.session_state.strategy = SIM_TYPE_RANDOMN
+
 
 def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect, nationality_filter, decay_rate):
-
-    # seen_rate = 0.6#conv_rate / 100
-    
-    # run advertisement
 
     if nationality_filter == ALL_COUNTRIES:
 
@@ -345,11 +463,9 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
         else:
             ad = random.sample(range(1, 9), n)
 
-
     getAdvertisemnentTable(ad)
 
     st.session_state.advertisement = getAdvertisemnentTable(ad)
-
 
     # setup stuff
     arrivals = pd.read_csv('data/nationality_long.csv')
@@ -358,14 +474,18 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
     arrivalsDf = arrivals
 
     # construct a new dataframe
-    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals'])
+    df = pd.DataFrame(columns=['Year', 'Month', 'Season', 'district_c', 'District', 'Arrivals', 'Present'])
 
     filter = 'Arrivals' if nationality_filter == ALL_COUNTRIES else nationality_filter
 
     nonArrivals = arrivalsDf.copy()
-    arrivalsDf[['Arrivals']] = arrivalsDf[[filter]].multiply(seen_rate/100).round()
+    arrivalsDf['Arrivals'] = arrivalsDf[filter].multiply(seen_rate/100).round()
 
-    nonArrivals[['Arrivals']] = nonArrivals[['Arrivals']] - arrivalsDf[['Arrivals']]
+    nonArrivals['Arrivals'] = nonArrivals['Arrivals'] - arrivalsDf['Arrivals']
+    
+    nonArrivals['Ratio'] = arrivalsDf[filter].multiply((100-seen_rate)/100).round() / arrivalsDf['Arrivals']
+    
+    nonArrivals['Present'] = nonArrivals['Ratio'] * arrivalsDf['Present']
 
     utilityMap = {}
     for index in range(1, 9):
@@ -387,17 +507,34 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
         
         start = [row['Year'], row['Month'], row['Season']]
     
-        s_row = pd.Series(start + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, "Arrivals"]], index=df.columns)
+        s_row = pd.Series(start + [nonArrivals.loc[i, 'district_c']] + [district_code_map[nonArrivals.loc[i, 'district_c']]] + [nonArrivals.loc[i, "Arrivals"]] + [nonArrivals.loc[i, "Present"]], index=df.columns)
         df = df.append(s_row,ignore_index=True)
+        
+        results = getMeanAndStandardDeviation(row['Year'], row['Month'], row['district_c'])
+        mean = results[0]
+        #mean = 4.5
+        std = results[1]
+        
+        simulatedPresences = np.random.normal(mean, std, int(row['Arrivals']))
 
         for dist in range(1, 9):
+            
+            arrivalsToDistrict = choices.count(dist)
+            
+            presenceArray = simulatedPresences[:arrivalsToDistrict]
+            simulatedPresences = simulatedPresences[arrivalsToDistrict:]
+            
+            sumOfPresences = np.sum(presenceArray)
 
-            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [choices.count(dist)], index=df.columns)
+            s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [arrivalsToDistrict] + [sumOfPresences], index=df.columns)
+            # s_row = pd.Series(start + [dist] + [district_code_map[dist]] + [arrivalsToDistrict] + [arrivalsToDistrict*mean], index=df.columns)
             df = df.append(s_row,ignore_index=True)
 
-    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).sum().reset_index()
+    simulatedResults = df.groupby(by=['Year', 'Month', 'Season', 'district_c', 'District']).agg({'Arrivals': 'sum', 'Present': 'sum'}).reset_index()
 
-    simulatedResults.to_csv('data/sim.csv', index=False)
+    # simulatedResults.to_csv('data/sim.csv', index=False)
+    
+    # simulatedResults
 
     arrivals2 = pd.read_csv('data/nationality_trends.csv')
     arrivals2 = arrivals2[arrivals2['Year'] == year]
@@ -406,6 +543,7 @@ def on_run_simulation_btn_click(year, type, n, conv_rate, seen_rate, multiselect
     arrivals2 = arrivals2.merge(simulatedResults, how='inner', on=["Year", "Month", "district_c"], suffixes=("", "_sim"))
     arrivals2 = arrivals2.drop(['Season_sim'], axis = 1)
     arrivals2['Diff'] = arrivals2['Arrivals_sim'] - arrivals2['Arrivals']
+    arrivals2['sim_present'] = arrivals2['Present_sim'] #* 4.63335435
 
     st.session_state['comparable'] = True
     st.session_state.nclick += 1
@@ -492,12 +630,34 @@ def generate_map_diagram_reality(overallDf, categoryDf, nationalityDf, target, i
 
     return fig
 
-def generate_map_diagram_simulation(isDelta=False, mode='General', season='', month='January'):
+def gini_coefficient(x):
+    """Compute Gini coefficient of array of values"""
+    diffsum = 0
+    for i, xi in enumerate(x[:-1], 1):
+        diffsum += np.sum(np.abs(xi - x[i:]))
+    return diffsum / (len(x)**2 * np.mean(x))
 
-    target = 'Arrivals_sim'
+def generate_map_diagram_simulation(isDelta=False, mode='General', season='', month='January', metric='Arrivals'):
 
     df = st.session_state.arrivals_sim
     districts = gp.read_file('data/geo_district_df.shp')
+
+
+    yearlyDf = st.session_state.arrivals_sim[st.session_state.arrivals_sim['Year'] == 2019]
+    
+    yearlyDf = yearlyDf.groupby(['district_c']).sum()
+
+    yearlyDf = districts.merge(yearlyDf, on='district_c',
+                             how="inner", suffixes=('', '_y'))
+
+    yearlyDf["AvgPresentSim"] = yearlyDf["sim_present"] / 365
+    yearlyDf["AvgPresentToBedsSim"] = yearlyDf["AvgPresentSim"] / yearlyDf["beds"]
+    yearlyDf["AvgPresentToPopSim"] = yearlyDf["AvgPresentSim"] / yearlyDf["population"]
+
+
+    yearlyDf["AvgPresent"] = yearlyDf["Present"] / 365
+    yearlyDf["AvgPresentToBeds"] = yearlyDf["AvgPresent"] / yearlyDf["beds"]
+    yearlyDf["AvgPresentToPop"] = yearlyDf["AvgPresent"] / yearlyDf["population"]
 
     if mode == 'Seasons':
         df = df.groupby(['Season', 'district_c']).sum()
@@ -505,30 +665,61 @@ def generate_map_diagram_simulation(isDelta=False, mode='General', season='', mo
         df = districts.merge(df, on='district_c',
                              how="inner", suffixes=('', '_y'))
         df = df[df['Season'] == season]
+        div = 90
     elif mode == 'Month':
         df = df.groupby(['Month', 'district_c']).sum()
         df = df.reset_index()
         df = districts.merge(df, on='district_c',
                              how="inner", suffixes=('', '_y'))
         df = df[df['Month'] == months[month]]
+        div = 30
     else:
         df = df.groupby(['district_c']).sum()
         df = df.reset_index()
         df = districts.merge(df, on='district_c',
                              how="inner", suffixes=('', '_y'))
+        div = 365
 
     color_scale = 'sunset'
+
+    df["AvgPresentSim"] = df["sim_present"] / div
+    df["AvgPresentToBedsSim"] = df["AvgPresentSim"] / df["beds"]
+    df["AvgPresentToPopSim"] = df["AvgPresentSim"] / df["population"]
+
+    df["AvgPresent"] = df["Present"] / div
+    df["AvgPresentToBeds"] = df["AvgPresent"] / df["beds"]
+    df["AvgPresentToPop"] = df["AvgPresent"] / df["population"]
+
+    df["AvgPresentDiff"] = df["AvgPresentSim"] - df["AvgPresent"]
+    df["AvgPresentToBedsDiff"] = df["AvgPresentToBedsSim"] - df["AvgPresentToBeds"]
+    df["AvgPresentToPopDiff"] = df["AvgPresentToPopSim"] - df["AvgPresentToPop"]
 
     if isDelta:
         # "RdBu" #["red", "white", "green"]
         color_scale = ['#eb8383', "#ffffff", '#5b5399']
         target = 'Diff'
+        if metric == METRIC_AVG_PRESENT:
+            target = "AvgPresentDiff"
+        if metric == METRIC_AVG_PRESENT_TO_BEDS:
+            target = "AvgPresentToBedsDiff"
+        if metric == METRIC_AVG_PRESENT_TO_POP:
+            target = "AvgPresentToPopDiff"
 
-    fig = setupMapDiagram(df, target, color_scale)
+    else:
+
+        if metric == METRIC_ARRIVALS:
+            target = 'Arrivals_sim'
+        else:
+            target = metric
+
+
+    fig = setupMapDiagram(df, target, color_scale, isDelta)
 
     return fig
 
-def setupMapDiagram(df, target, color_scale):
+def setupMapDiagram(df, target, color_scale, isDelta = False):
+
+    # st.write("IsDelta: ", isDelta)
 
     df['Rank'] = df[target].rank(ascending=False)
 
@@ -539,7 +730,9 @@ def setupMapDiagram(df, target, color_scale):
 
     vmin = df[target].min()
     vmax = df[target].max()
-    middlePoint = 0 if target=='Diff' else (vmax-vmin)/2
+    # st.write(vmin)
+    # st.write(vmax)
+    middlePoint = 0 if isDelta else (vmax-vmin)/2
 
     fig = px.choropleth(df,
                         geojson=df.geometry,
@@ -551,8 +744,8 @@ def setupMapDiagram(df, target, color_scale):
                         height=600,
                         hover_name="Name",
                         hover_data={"Rank", f'{target}'},
-                        locations=df.index
-
+                        locations=df.index,
+                        # range_color=[vmin,vmax]
                         )
     fig.update_geos(fitbounds="locations", visible=False)
 
@@ -561,6 +754,8 @@ def setupMapDiagram(df, target, color_scale):
         coloraxis_colorbar_thickness=10,
         coloraxis_colorbar_title_side='right',
         dragmode=False,
+        # zmax  = vmax,
+        # zmin = vmin,
         hoverlabel=dict(
             bgcolor="white",
             font_size=14
