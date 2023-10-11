@@ -11,4 +11,4 @@ seaborn==0.11.1
 Shapely==1.8.4
 streamlit==1.4.0
 click==8
-plotly==5.13
+plotly==5.13.0
