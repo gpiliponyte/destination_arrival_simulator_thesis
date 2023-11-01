@@ -2,7 +2,7 @@
 
 This project uses historical tourist arrival data to the region in ST to predict destination advertisement effects.
 
-Developed using Streamlit.
+Developed using Python Streamlit.
 
 The data was provided by ASTAT, the statistics institute of South Tyrol.
 
