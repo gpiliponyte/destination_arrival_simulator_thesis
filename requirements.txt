@@ -14,9 +14,6 @@
 #plotly==5.13.0
 alabaster==0.7.12
 altair==5.0.1
-anaconda-client==1.11.0
-anaconda-navigator==2.3.1
-anaconda-project==0.11.1
 anyio==3.5.0
 appdirs==1.4.4
 applaunchservices==0.3.0
