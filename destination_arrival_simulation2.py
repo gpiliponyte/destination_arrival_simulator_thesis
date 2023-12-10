@@ -139,12 +139,12 @@ if st.session_state.mode == h.REALITY:
             'Select Metric:',
             (h.METRIC_ARRIVALS, h.METRIC_AVG_PRESENT,
              h.METRIC_AVG_PRESENT_TO_BEDS, h.METRIC_AVG_PRESENT_TO_POP),
-            key='selectbox_symtype')
+            key='selectbox_symtype1')
 
         mode_cat_nat_selectbox = st.selectbox(
             'Select Type of Analysis:',
             (h.TYPE_GENERAL, h.TYPE_NAT, h.TYPE_ACC),
-            key='selectbox_symtype')
+            key='selectbox_symtype2')
 
         if mode_cat_nat_selectbox == 'By Nationality':
 
@@ -154,7 +154,7 @@ if st.session_state.mode == h.REALITY:
             spec_map_selectbox = st.selectbox(
                 'Select Nationality',
                 nationalities,
-                key='selectbox_symtype')
+                key='selectbox_symtype3')
 
         if mode_cat_nat_selectbox == 'By Type of Accomodation':
 
@@ -164,17 +164,17 @@ if st.session_state.mode == h.REALITY:
             spec_map_selectbox = st.selectbox(
                 'Select Accommodation Type',
                 accommodations,
-                key='selectbox_symtype')
+                key='selectbox_symtype4')
 
         year_map_selectbox = st.selectbox(
             'Select Year',
             (2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010),
-            key='selectbox_symtype')
+            key='selectbox_symtype5')
 
         mode_map_selectbox = st.selectbox(
             'Select Time Granularity',
             ("All", "Month", "Seasons"),
-            key='selectbox_symtype')
+            key='selectbox_symtype6')
 
         overallDf = overallDictionary['2020'].copy()
         nationalityDf = nationalityDictionary['2020'].copy()
@@ -193,7 +193,7 @@ if st.session_state.mode == h.REALITY:
             season_map_selectbox = st.selectbox(
                 'Select Season',
                 ("Winter", "Spring", "Summer", "Autumn"),
-                key='selectbox_symtype')
+                key='selectbox_symtype7')
 
         if season_map_selectbox:
             fig_map_reality = h.generate_map_diagram_reality(
@@ -205,7 +205,7 @@ if st.session_state.mode == h.REALITY:
                 'Select Month',
                 ("January", "February", "March", "April", "May", "June", "July",
                  "August", "September", "October", "November", "December"),
-                key='selectbox_symtype')
+                key='selectbox_symtype8')
 
         if month_map_selectbox:
             fig_map_reality = h.generate_map_diagram_reality(
@@ -237,7 +237,7 @@ if st.session_state.mode == h.REALITY:
         x_bar_selectbox = st.selectbox(
             'Select X Metric',
             ('Distict', 'Season', 'Month', 'Nationality', 'Accommodation'),
-            key='selectbox2_symtype')
+            key='selectbox2_symtype2')
 
         if x_bar_selectbox == 'Nationality':
             colorOptions = optionsColorList
@@ -297,7 +297,7 @@ span[data-baseweb="tag"] {
         mode = st.selectbox(
             'Trends Visualized',
             ('Total', 'District', 'Nationality', 'Accommodation'),
-            key='selectbox_symtype')
+            key='selectbox_symtype10')
 
         # def onCheckboxChange(type, option):
         #     global choices
@@ -417,12 +417,12 @@ if st.session_state.mode == h.SIMULATION:
             'Select Metric:',
             (h.METRIC_ARRIVALS, h.METRIC_AVG_PRESENT,
              h.METRIC_AVG_PRESENT_TO_BEDS, h.METRIC_AVG_PRESENT_TO_POP),
-            key='selectbox_symtype')
+            key='selectbox_symtype11')
 
         mode_map_selectbox_sim = st.selectbox(
             'Select Time Granularity',
             ("All", "Month", "Seasons"),
-            key='selectbox_symtype')
+            key='selectbox_symtype12')
 
         fig_map_simulation = h.generate_map_diagram_simulation(
             isDelta, mode=mode_map_selectbox_sim, metric=metric_map_selectbox)
@@ -432,7 +432,7 @@ if st.session_state.mode == h.SIMULATION:
                 season_map_selectbox_sim = st.selectbox(
                     'Select Season',
                     ("Winter", "Spring", "Summer", "Autumn"),
-                    key='selectbox_symtype')
+                    key='selectbox_symtype13')
 
             if season_map_selectbox_sim:
                 fig_map_simulation = h.generate_map_diagram_simulation(
@@ -444,7 +444,7 @@ if st.session_state.mode == h.SIMULATION:
                     'Select Month',
                     ("January", "February", "March", "April", "May", "June", "July",
                      "August", "September", "October", "November", "December"),
-                    key='selectbox_symtype')
+                    key='selectbox_symtype14')
 
             if month_map_selectbox_sim:
                 fig_map_simulation = h.generate_map_diagram_simulation(
@@ -501,7 +501,7 @@ if st.session_state.mode == h.SIMULATION:
         mode = st.selectbox(
             'Trends Visualized',
             ('Total', 'District'),
-            key='selectbox_symtype')
+            key='selectbox_symtype15')
 
         st.markdown(
             """

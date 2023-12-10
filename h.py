@@ -68,7 +68,7 @@ def setup_state():
         st.session_state.strategy = None
 
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def load_data():  # LOAD SIMULATION AND REAL DATA ON LOAD
 
     districts = gp.read_file('data/geo_district_df.shp')

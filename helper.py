@@ -27,7 +27,7 @@ def setup_state():
         st.session_state.mode = REALITY
 
 
-@st.cache
+# @st.cache
 def load_data():  # LOAD SIMULATION AND REAL DATA ON LOAD
 
 
