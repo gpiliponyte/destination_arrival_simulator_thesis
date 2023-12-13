@@ -10,11 +10,12 @@ import random
 from scipy import optimize
 import itertools
 
-SIM_TYPE_RANDOMN = 'Random-N'
-SIM_TYPE_TOPN = 'Top-N'
-SIM_TYPE_BOTTOMN = 'Bottom-N'
-SIM_TYPE_CUSTOM = 'Custom'
-SIM_TYPE_SUSTAINABLE = 'Sustainable-N'
+SIM_TYPE_RANDOMN = 'Random-n'
+SIM_TYPE_TOPN = 'Top-n'
+SIM_TYPE_BOTTOMN = 'Bottom-n'
+SIM_TYPE_CUSTOM = 'Custom-n'
+SIM_TYPE_SUSTAINABLE = 'Sus-unpop-n'
+SIM_TYPE_CAPACITY = 'Sus-freebeds-n'
 
 REALITY = 'reality'
 SIMULATION = 'simulation'

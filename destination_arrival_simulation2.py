@@ -65,20 +65,20 @@ nationalityFilter = st.sidebar.selectbox(
 #     nationalityFilter = -1
 
 simulation_type = st.sidebar.selectbox(
-    'Marketing Campaign:',
+    'Promotion Campaign:',
     (h.SIM_TYPE_TOPN, h.SIM_TYPE_BOTTOMN, h.SIM_TYPE_RANDOMN, h.SIM_TYPE_SUSTAINABLE, h.SIM_TYPE_CUSTOM),
     key='selectbox_symtype')
 
 if simulation_type != h.SIM_TYPE_CUSTOM and simulation_type != h.SIM_TYPE_SUSTAINABLE:
     option_N = st.sidebar.selectbox(
-    'Size of N:',
+    'Size of n:',
     (1, 2, 3, 4, 5, 6, 7, 8),
     index=2,
     key='selectbox_N_size')
 
 if simulation_type == h.SIM_TYPE_SUSTAINABLE:
     option_N = st.sidebar.selectbox(
-    'Size of N:',
+    'Size of n:',
     (1, 2, 3),
     index=1,
     key='selectbox_N_size')
