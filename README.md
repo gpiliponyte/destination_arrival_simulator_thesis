@@ -1,6 +1,6 @@
 # Destination Arrival Simulator 
 
-This project uses historical tourist arrival and presence data to the region in ST to predict destination advertisement effects.
+This project uses historical tourist arrival and presence data in the region in ST to predict destination advertisement effects.
 
 Developed using Python Streamlit.
 
