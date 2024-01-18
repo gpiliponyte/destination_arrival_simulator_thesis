@@ -6,4 +6,4 @@ Developed using Python Streamlit.
 
 The data was provided by ASTAT, the statistics institute of South Tyrol, Italy.
 
-Includes dual functionality: show tourist arrival trends and predict marketing campaign effects.
+Includes dual functionality: show tourist arrival trends and predict marketing campaign effects on how many tourists visit the region.
